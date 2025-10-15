@@ -32,10 +32,11 @@
       border-radius: 8px;
       font-size: 15px;
     }
+    h3 { margin-top: 10px; color: #111; }
     .payment-btn {
       width: 100%;
       padding: 10px;
-      margin: 5px 0;
+      margin: 6px 0;
       border-radius: 10px;
       border: 1px solid #ccc;
       background: #f8fafc;
@@ -43,13 +44,15 @@
       cursor: pointer;
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       gap: 10px;
+      transition: 0.3s;
     }
     .payment-btn img {
-      width: 24px;
-      height: 24px;
+      width: 28px;
+      height: 28px;
       border-radius: 5px;
+      margin-left: 10px;
     }
     .payment-btn:hover { background: #e2e8f0; }
     button[type="submit"] {
@@ -63,6 +66,7 @@
       margin-top: 10px;
       cursor: pointer;
       opacity: 0.6;
+      transition: 0.3s;
     }
     button.enabled { opacity: 1; }
     #msg {
@@ -92,15 +96,18 @@
       <h3>पेमेंट मेथड (₹500)</h3>
 
       <button type="button" class="payment-btn" onclick="pay('paytm')">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Paytm_logo.png" alt="Paytm" /> Paytm
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Paytm_logo.png" alt="Paytm Logo" />
+        Paytm से भुगतान करें
       </button>
 
       <button type="button" class="payment-btn" onclick="pay('gpay')">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Google_Pay_Logo.svg" alt="Google Pay" /> Google Pay
+        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Google_Pay_Logo_%282020%29.svg" alt="Google Pay Logo" />
+        Google Pay से भुगतान करें
       </button>
 
       <button type="button" class="payment-btn" onclick="pay('phonepe')">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/f/f0/PhonePe_Logo_2023.svg" alt="PhonePe" /> PhonePe
+        <img src="https://upload.wikimedia.org/wikipedia/commons/f/f0/PhonePe_Logo_2023.svg" alt="PhonePe Logo" />
+        PhonePe से भुगतान करें
       </button>
 
       <input type="file" id="screenshot" accept="image/*" required />
