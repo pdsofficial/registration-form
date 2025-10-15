@@ -1,151 +1,94 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pania Digital Success Registration</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-<style>
-  *{box-sizing:border-box;margin:0;padding:0;font-family:'Poppins',sans-serif}
-  body{background:#f6f7fb;display:flex;justify-content:center;align-items:center;min-height:100vh}
-  .card{background:#fff;padding:30px;border-radius:20px;box-shadow:0 10px 25px rgba(0,0,0,0.1);width:100%;max-width:420px;text-align:center}
-  h2{color:#2c3e50;margin-bottom:15px;font-size:22px}
-  label{display:block;text-align:left;margin-top:12px;font-weight:600;color:#34495e}
-  input,select,button{width:100%;padding:12px;border-radius:12px;border:1px solid #bdc3c7;margin-top:6px;font-size:15px}
-  input:focus,select:focus{outline:none;border:1px solid #27ae60}
-  button{background:#27ae60;color:#fff;font-weight:600;border:none;cursor:pointer;transition:0.3s}
-  button:hover{background:#2ecc71}
-  button:disabled{background:#95a5a6;cursor:not-allowed}
-  .qr-section{margin:20px 0}
-  .qr-section img{width:100%;max-width:220px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.2)}
-  .instruction{color:#555;font-size:14px;margin-top:12px;text-align:left}
-  #uploadRow{display:none;margin-top:15px;text-align:left}
-  #warning{color:red;font-size:14px;display:none;margin-top:6px}
-  #successMsg{color:#16a085;font-size:15px;display:none;margin-top:6px}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>संपर्क फ़ॉर्म — WhatsApp पर भेजें</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans",sans-serif;
+         display:flex;align-items:center;justify-content:center;height:100vh;margin:0;
+         background:linear-gradient(180deg,#f7f9fc,#eef6f9);}
+    .card{background:white;padding:20px;border-radius:12px;box-shadow:0 6px 20px rgba(20,30,50,0.08);width:320px;max-width:95%}
+    h1{font-size:18px;margin:0 0 12px}
+    label{display:block;font-size:13px;margin-top:10px;color:#254053}
+    input[type="text"], input[type="tel"], select{
+      width:100%;padding:10px;border-radius:8px;border:1px solid #d6e1ea;font-size:14px;
+      box-sizing:border-box;margin-top:6px;
+    }
+    .gender{display:flex;gap:8px;margin-top:8px}
+    .btn{
+      margin-top:16px;padding:10px 14px;border-radius:10px;border:0;
+      background:#25D366;color:white;font-weight:600;font-size:15px;width:100%;
+      cursor:pointer;
+    }
+    .note{font-size:12px;color:#6b7c85;margin-top:8px;text-align:center}
+    .small{font-size:12px;color:#9aa6ad;margin-top:6px}
+  </style>
 </head>
 <body>
+  <form class="card" id="waForm" onsubmit="return handleSubmit(event)">
+    <h1>संपर्क फ़ॉर्म</h1>
 
-<div class="card">
-  <h2>Pania Digital Success Registration Form</h2>
+    <label for="name">नाम</label>
+    <input id="name" name="name" type="text" placeholder="पूरा नाम" required />
 
-  <label>Full Name</label>
-  <input id="name" placeholder="Enter your full name" required>
+    <label for="phone">मोबाइल नंबर</label>
+    <input id="phone" name="phone" type="tel" placeholder="उदा. 9123456789" pattern="[0-9]{7,15}" required />
 
-  <label>Mobile Number</label>
-  <input id="mobile" type="tel" pattern="[0-9]{10}" placeholder="10-digit mobile number" required>
+    <label>जेंडर</label>
+    <div class="gender">
+      <label><input type="radio" name="gender" value="Male" required /> मेल</label>
+      <label><input type="radio" name="gender" value="Female" /> फीमेल</label>
+      <label><input type="radio" name="gender" value="Other" /> अन्य</label>
+    </div>
 
-  <label>Gender</label>
-  <select id="gender" required>
-    <option value="">Select Gender</option>
-    <option>Male</option>
-    <option>Female</option>
-    <option>Other</option>
-  </select>
+    <div class="small">जैसे ही आप सबमिट करेंगे, WhatsApp ओपन होगा और संदेश तैयार हो जाएगा।</div>
 
-  <div class="qr-section">
-    <img src="https://i.postimg.cc/hjY5WhXy/Account-QRCode-1785-LIGHT-THEME.png" alt="QR Code">
-  </div>
+    <button type="submit" class="btn">सबमिट और WhatsApp खोलें</button>
+    <div class="note">यदि WhatsApp इंस्टॉल नहीं है तो WhatsApp Web खुलेगा।</div>
+  </form>
 
-  <p class="instruction">Scan the QR code and make a ₹10 payment via your UPI app. Once payment is successful, upload the screenshot below.</p>
+  <script>
+    // WhatsApp target number (without + or leading zeros). भारत के लिए मैंने +91 जोड़ा:
+    const targetNumber = "919509607895"; // <-- आपका नंबर (country code +91) के साथ
 
-  <button id="payBtn">Pay ₹10 Now</button>
+    function handleSubmit(e) {
+      e.preventDefault();
+      const form = e.target;
+      const name = (form.name.value || "").trim();
+      const phone = (form.phone.value || "").trim();
+      const genderEl = form.querySelector('input[name="gender"]:checked');
+      const gender = genderEl ? genderEl.value : "";
 
-  <div id="uploadRow">
-    <label>Upload Payment Screenshot</label>
-    <input type="file" id="screenshot" accept="image/*">
-    <div id="warning">⚠️ Please complete the ₹10 payment first and upload the correct screenshot.</div>
-    <button id="submitBtn" disabled>Submit Registration</button>
-    <div id="successMsg">✔️ Payment verified! Redirecting to WhatsApp…</div>
-  </div>
-</div>
-
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<script>
-  const payBtn = document.getElementById('payBtn');
-  const uploadRow = document.getElementById('uploadRow');
-  const screenshot = document.getElementById('screenshot');
-  const submitBtn = document.getElementById('submitBtn');
-  const warning = document.getElementById('warning');
-  const successMsg = document.getElementById('successMsg');
-
-  let razorpayPaymentId = null;
-
-  const SERVER = 'https://your-server.example.com'; // Change to your server endpoint
-
-  // 1) Initiate payment
-  payBtn.addEventListener('click', async () => {
-    payBtn.disabled = true;
-    try {
-      const res = await fetch(SERVER + '/create-order', {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({amount:10,currency:'INR'})
-      });
-      const data = await res.json();
-      if(!data || !data.order) throw new Error('Order creation failed');
-
-      const options = {
-        key: data.key_id,
-        amount: data.order.amount,
-        currency: data.order.currency,
-        name:'Pania Digital Success',
-        description:'Registration Fee ₹10',
-        order_id: data.order.id,
-        handler:function(response){
-          razorpayPaymentId = response.razorpay_payment_id;
-          uploadRow.style.display='block';
-          warning.style.display='none';
-          submitBtn.disabled=false;
-        },
-        modal:{
-          ondismiss:function(){ payBtn.disabled=false }
-        }
-      };
-      const rzp = new Razorpay(options);
-      rzp.open();
-    } catch(err){
-      alert('Payment initiation failed. Try again.');
-      console.error(err);
-      payBtn.disabled=false;
-    }
-  });
-
-  // 2) Upload screenshot and verify
-  submitBtn.addEventListener('click', async () => {
-    if(!razorpayPaymentId){ warning.style.display='block'; return; }
-    if(!screenshot.files[0]){ alert('Please select screenshot file'); return; }
-
-    submitBtn.disabled = true;
-
-    const formData = new FormData();
-    formData.append('name', document.getElementById('name').value);
-    formData.append('mobile', document.getElementById('mobile').value);
-    formData.append('gender', document.getElementById('gender').value);
-    formData.append('payment_id', razorpayPaymentId);
-    formData.append('file', screenshot.files[0]);
-
-    try{
-      const res = await fetch(SERVER+'/verify-and-upload', {method:'POST', body:formData});
-      const json = await res.json();
-      if(json.success){
-        successMsg.style.display='block';
-        const owner = json.owner_whatsapp || '9509607895';
-        const msg = encodeURIComponent(
-          `Name: ${json.data.name}\nNumber: ${json.data.mobile}\nGender: ${json.data.gender}\nPayment ID: ${json.data.payment_id}\nPayment verified.`
-        );
-        setTimeout(()=>{ window.location.href=`https://wa.me/${owner}?text=${msg}` }, 1500);
-      } else {
-        alert('Verification failed: '+(json.error||'Unknown'));
-        submitBtn.disabled=false;
+      // बेसिक वेलिडेशन
+      if (!name || !phone || !gender) {
+        alert("कृपया सभी फ़ील्ड भरें।");
+        return false;
       }
-    }catch(err){
-      alert('Upload/Verification failed. Try again.');
-      console.error(err);
-      submitBtn.disabled=false;
-    }
-  });
-</script>
 
+      // संदेश फॉर्मेट — आप इसे अपनी पसंद के अनुसार बदल सकते हैं
+      const message =
+`नया फॉर्म सबमिशन:
+नाम: ${name}
+मोबाइल: ${phone}
+जेंडर: ${gender}`;
+
+      const encoded = encodeURIComponent(message);
+
+      // Use wa.me (works both mobile and web)
+      const waUrl = `https://wa.me/${targetNumber}?text=${encoded}`;
+
+      // Try opening in new tab/window. Note: popup blockers may block window.open in some browsers.
+      // Using location.href also works (will navigate current tab).
+      // We'll open in a new tab, and also change location as fallback after a short delay.
+      const newWindow = window.open(waUrl, "_blank");
+
+      if (!newWindow) {
+        // Popup blocked — navigate current tab
+        window.location.href = waUrl;
+      }
+      return false;
+    }
+  </script>
 </body>
-</htbackgroundground
+</html>
