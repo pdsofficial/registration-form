@@ -94,14 +94,16 @@
   const form = document.getElementById('registrationForm');
   const errorMsg = document.getElementById('errorMsg');
 
+  // UPI लिंक
   const upiLink = "upi://pay?pa=9509607895@upi&pn=PaniyaDigitalSuccess&am=500&cu=INR";
 
-  // QR क्लिक करने पर UPI ऐप खुले
+  // QR पर क्लिक/टच → सीधे UPI ऐप खुले
   qrImage.addEventListener('click', () => {
     window.location.href = upiLink;
     alert("UPI ऐप में ₹500 पेमेंट करें और स्क्रीनशॉट अपलोड करें।");
   });
 
+  // स्क्रीनशॉट चेक
   screenshot.addEventListener('change', () => {
     submitBtn.disabled = true;
 
@@ -112,7 +114,6 @@
         Tesseract.recognize(reader.result, 'eng+hin', { logger: m => console.log(m) })
         .then(({ data: { text } }) => {
           console.log("Detected Text:", text);
-          // अगर टेक्स्ट सही है तो सबमिट अनेबल, नहीं तो disable
           if(text.includes("Panne khan ₹500 पेमेंट सफल रहा")){
             submitBtn.disabled = false;
           } else {
@@ -126,6 +127,7 @@
     }
   });
 
+  // फॉर्म सबमिट
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     alert("🎉 Congratulations! Registration Successful.");
