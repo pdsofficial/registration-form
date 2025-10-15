@@ -1,155 +1,151 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pania Digital Success Registration</title>
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: #f1f2f6;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
-    .form-container {
-      background: #fff;
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-      width: 90%;
-      max-width: 400px;
-      text-align: center;
-    }
-    h2 {
-      color: #2d3436;
-      margin-bottom: 10px;
-    }
-    label {
-      display: block;
-      margin-top: 10px;
-      font-weight: 600;
-      color: #444;
-    }
-    input, select {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      margin-top: 5px;
-    }
-    .qr-section {
-      margin: 20px 0;
-    }
-    .qr-section img {
-      width: 100%;
-      max-width: 250px;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-    }
-    p.instruction {
-      font-size: 14px;
-      color: #555;
-      margin: 15px 0;
-    }
-    .upload-box {
-      margin-top: 10px;
-    }
-    #warningMsg {
-      color: red;
-      font-size: 14px;
-      display: none;
-      margin-top: 5px;
-    }
-    button {
-      background-color: #27ae60;
-      color: white;
-      padding: 12px;
-      border: none;
-      border-radius: 10px;
-      font-size: 16px;
-      margin-top: 15px;
-      width: 100%;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    button:disabled {
-      background-color: #95a5a6;
-      cursor: not-allowed;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pania Digital Success Registration</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;font-family:'Poppins',sans-serif}
+  body{background:#f6f7fb;display:flex;justify-content:center;align-items:center;min-height:100vh}
+  .card{background:#fff;padding:30px;border-radius:20px;box-shadow:0 10px 25px rgba(0,0,0,0.1);width:100%;max-width:420px;text-align:center}
+  h2{color:#2c3e50;margin-bottom:15px;font-size:22px}
+  label{display:block;text-align:left;margin-top:12px;font-weight:600;color:#34495e}
+  input,select,button{width:100%;padding:12px;border-radius:12px;border:1px solid #bdc3c7;margin-top:6px;font-size:15px}
+  input:focus,select:focus{outline:none;border:1px solid #27ae60}
+  button{background:#27ae60;color:#fff;font-weight:600;border:none;cursor:pointer;transition:0.3s}
+  button:hover{background:#2ecc71}
+  button:disabled{background:#95a5a6;cursor:not-allowed}
+  .qr-section{margin:20px 0}
+  .qr-section img{width:100%;max-width:220px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.2)}
+  .instruction{color:#555;font-size:14px;margin-top:12px;text-align:left}
+  #uploadRow{display:none;margin-top:15px;text-align:left}
+  #warning{color:red;font-size:14px;display:none;margin-top:6px}
+  #successMsg{color:#16a085;font-size:15px;display:none;margin-top:6px}
+</style>
 </head>
 <body>
 
-  <div class="form-container">
-    <h2>Pania Digital Success Registration Form</h2>
+<div class="card">
+  <h2>Pania Digital Success Registration Form</h2>
 
-    <form id="joinForm">
-      <label>Full Name</label>
-      <input type="text" name="name" placeholder="Enter your name" required>
+  <label>Full Name</label>
+  <input id="name" placeholder="Enter your full name" required>
 
-      <label>Mobile Number</label>
-      <input type="tel" name="number" pattern="[0-9]{10}" placeholder="10-digit mobile number" required>
+  <label>Mobile Number</label>
+  <input id="mobile" type="tel" pattern="[0-9]{10}" placeholder="10-digit mobile number" required>
 
-      <label>Gender</label>
-      <select name="gender" required>
-        <option value="">Select</option>
-        <option>Male</option>
-        <option>Female</option>
-        <option>Other</option>
-      </select>
+  <label>Gender</label>
+  <select id="gender" required>
+    <option value="">Select Gender</option>
+    <option>Male</option>
+    <option>Female</option>
+    <option>Other</option>
+  </select>
 
-      <div class="qr-section">
-        <img src="https://i.postimg.cc/hjY5WhXy/Account-QRCode-1785-LIGHT-THEME.png" alt="QR Code">
-      </div>
-
-      <p class="instruction">
-        First, scan the QR code and make a ₹10 payment using your UPI app, then upload the screenshot below.
-      </p>
-
-      <div class="upload-box">
-        <input type="file" id="screenshot" accept="image/*" required>
-        <p id="warningMsg">⚠️ कृपया पहले ₹10 पेमेंट करें और सही स्क्रीनशॉट अपलोड करें।</p>
-      </div>
-
-      <button type="submit" id="submitBtn" disabled>Submit</button>
-    </form>
+  <div class="qr-section">
+    <img src="https://i.postimg.cc/hjY5WhXy/Account-QRCode-1785-LIGHT-THEME.png" alt="QR Code">
   </div>
 
-  <script>
-    const fileInput = document.getElementById('screenshot');
-    const submitBtn = document.getElementById('submitBtn');
-    const form = document.getElementById('joinForm');
-    const warningMsg = document.getElementById('warningMsg');
+  <p class="instruction">Scan the QR code and make a ₹10 payment via your UPI app. Once payment is successful, upload the screenshot below.</p>
 
-    // स्क्रीनशॉट वेरिफिकेशन
-    fileInput.addEventListener('change', () => {
-      const file = fileInput.files[0];
-      if (file && (file.name.toLowerCase().includes("panne") || file.name.toLowerCase().includes("10"))) {
-        submitBtn.disabled = false;
-        warningMsg.style.display = 'none'; // सही स्क्रीनशॉट → चेतावनी छुपाएं
+  <button id="payBtn">Pay ₹10 Now</button>
+
+  <div id="uploadRow">
+    <label>Upload Payment Screenshot</label>
+    <input type="file" id="screenshot" accept="image/*">
+    <div id="warning">⚠️ Please complete the ₹10 payment first and upload the correct screenshot.</div>
+    <button id="submitBtn" disabled>Submit Registration</button>
+    <div id="successMsg">✔️ Payment verified! Redirecting to WhatsApp…</div>
+  </div>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+  const payBtn = document.getElementById('payBtn');
+  const uploadRow = document.getElementById('uploadRow');
+  const screenshot = document.getElementById('screenshot');
+  const submitBtn = document.getElementById('submitBtn');
+  const warning = document.getElementById('warning');
+  const successMsg = document.getElementById('successMsg');
+
+  let razorpayPaymentId = null;
+
+  const SERVER = 'https://your-server.example.com'; // Change to your server endpoint
+
+  // 1) Initiate payment
+  payBtn.addEventListener('click', async () => {
+    payBtn.disabled = true;
+    try {
+      const res = await fetch(SERVER + '/create-order', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({amount:10,currency:'INR'})
+      });
+      const data = await res.json();
+      if(!data || !data.order) throw new Error('Order creation failed');
+
+      const options = {
+        key: data.key_id,
+        amount: data.order.amount,
+        currency: data.order.currency,
+        name:'Pania Digital Success',
+        description:'Registration Fee ₹10',
+        order_id: data.order.id,
+        handler:function(response){
+          razorpayPaymentId = response.razorpay_payment_id;
+          uploadRow.style.display='block';
+          warning.style.display='none';
+          submitBtn.disabled=false;
+        },
+        modal:{
+          ondismiss:function(){ payBtn.disabled=false }
+        }
+      };
+      const rzp = new Razorpay(options);
+      rzp.open();
+    } catch(err){
+      alert('Payment initiation failed. Try again.');
+      console.error(err);
+      payBtn.disabled=false;
+    }
+  });
+
+  // 2) Upload screenshot and verify
+  submitBtn.addEventListener('click', async () => {
+    if(!razorpayPaymentId){ warning.style.display='block'; return; }
+    if(!screenshot.files[0]){ alert('Please select screenshot file'); return; }
+
+    submitBtn.disabled = true;
+
+    const formData = new FormData();
+    formData.append('name', document.getElementById('name').value);
+    formData.append('mobile', document.getElementById('mobile').value);
+    formData.append('gender', document.getElementById('gender').value);
+    formData.append('payment_id', razorpayPaymentId);
+    formData.append('file', screenshot.files[0]);
+
+    try{
+      const res = await fetch(SERVER+'/verify-and-upload', {method:'POST', body:formData});
+      const json = await res.json();
+      if(json.success){
+        successMsg.style.display='block';
+        const owner = json.owner_whatsapp || '9509607895';
+        const msg = encodeURIComponent(
+          `Name: ${json.data.name}\nNumber: ${json.data.mobile}\nGender: ${json.data.gender}\nPayment ID: ${json.data.payment_id}\nPayment verified.`
+        );
+        setTimeout(()=>{ window.location.href=`https://wa.me/${owner}?text=${msg}` }, 1500);
       } else {
-        submitBtn.disabled = true;
-        warningMsg.style.display = 'block'; // गलत स्क्रीनशॉट → चेतावनी दिखाएं
+        alert('Verification failed: '+(json.error||'Unknown'));
+        submitBtn.disabled=false;
       }
-    });
-
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      alert("🎉 Congratulations!\nYou are now part of the Pania Digital Success team!");
-
-      const name = form.name.value;
-      const number = form.number.value;
-      const gender = form.gender.value;
-
-      // WhatsApp redirect with auto-filled message
-      const msg = `Name: ${name}%0aNumber: ${number}%0aGender: ${gender}%0aI have made ₹10 payment and uploading the screenshot.`;
-      window.location.href = `https://wa.me/9509607895?text=${msg}`;
-    });
-  </script>
+    }catch(err){
+      alert('Upload/Verification failed. Try again.');
+      console.error(err);
+      submitBtn.disabled=false;
+    }
+  });
+</script>
 
 </body>
-</html>
+</htbackgroundground
