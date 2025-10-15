@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Paniya Digital Success - Registration Form</title>
+<title>Paniya Digital Success - Registration</title>
 <style>
   :root {
     --bg: #f5f5f5;
@@ -41,6 +41,7 @@
     align-items: center;
     min-height: 100vh;
   }
+
   .form-container {
     background: var(--card);
     box-shadow: 0 4px 20px rgba(0,0,0,0.2);
@@ -50,15 +51,18 @@
     padding: 25px;
     position: relative;
   }
+
   h2 {
     text-align: center;
     color: var(--accent);
   }
+
   label {
     display: block;
     margin-top: 15px;
     font-weight: 600;
   }
+
   input, select {
     width: 100%;
     padding: 10px;
@@ -67,20 +71,18 @@
     outline: none;
     font-size: 16px;
   }
+
   .payment-options img {
     width: 70px;
     margin: 8px;
     cursor: pointer;
     transition: transform 0.2s;
   }
+
   .payment-options img:hover {
     transform: scale(1.1);
   }
-  .theme-selector {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-  }
+
   button {
     margin-top: 20px;
     width: 100%;
@@ -93,41 +95,68 @@
     cursor: pointer;
     transition: background 0.3s;
   }
+
   button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
   }
-  button:hover {
-    background: #0056b3;
-  }
+
   .qr-box {
     text-align: center;
     margin-top: 15px;
   }
+
   .qr-box img {
     width: 160px;
     border-radius: 12px;
     cursor: pointer;
     transition: transform 0.3s;
   }
+
   .qr-box img:hover {
     transform: scale(1.1);
   }
+
+  .admin-controls {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .admin-controls select {
+    padding: 5px;
+    border-radius: 8px;
+    border: 1px solid var(--accent);
+    font-weight: bold;
+  }
+
 </style>
 </head>
 <body data-theme="light">
 
-<div class="theme-selector">
-  <select id="themeSelect">
-    <option value="light">🌞 Light</option>
-    <option value="dark">🌙 Dark</option>
-    <option value="blue">💙 Blue</option>
-    <option value="golden">✨ Golden</option>
-  </select>
-</div>
-
 <div class="form-container">
+  <div class="admin-controls" id="adminControls" style="display:none;">
+    <select id="themeSelect">
+      <option value="light">🌞 Light</option>
+      <option value="dark">🌙 Dark</option>
+      <option value="blue">💙 Blue</option>
+      <option value="golden">✨ Golden</option>
+    </select>
+
+    <select id="priceSelect">
+      <option value="100">₹100</option>
+      <option value="200">₹200</option>
+      <option value="300">₹300</option>
+      <option value="400">₹400</option>
+      <option value="500" selected>₹500</option>
+    </select>
+  </div>
+
   <h2>Paniya Digital Success Registration</h2>
+
   <form id="regForm">
     <label>पूरा नाम:</label>
     <input type="text" id="name" required>
@@ -167,28 +196,46 @@
   const screenshot = document.getElementById('screenshot');
   const submitBtn = document.getElementById('submitBtn');
   const themeSelect = document.getElementById('themeSelect');
+  const priceSelect = document.getElementById('priceSelect');
+  const adminControls = document.getElementById('adminControls');
 
-  let paymentSelected = false;
+  const urlParams = new URLSearchParams(window.location.search);
+  const isAdmin = urlParams.get('admin') === 'true';
 
-  themeSelect.addEventListener('change', () => {
+  let amount = localStorage.getItem('paymentAmount') || 500;
+  let theme = localStorage.getItem('formTheme') || 'light';
+
+  document.body.setAttribute('data-theme', theme);
+  if (isAdmin) {
+    adminControls.style.display = 'flex';
+    themeSelect.value = theme;
+    priceSelect.value = amount;
+  }
+
+  themeSelect?.addEventListener('change', () => {
     document.body.setAttribute('data-theme', themeSelect.value);
+    localStorage.setItem('formTheme', themeSelect.value);
+  });
+
+  priceSelect?.addEventListener('change', () => {
+    amount = priceSelect.value;
+    localStorage.setItem('paymentAmount', amount);
+    alert(`✅ Payment amount set to ₹${amount}`);
   });
 
   function makePayment(method) {
-    paymentSelected = true;
     const upi = '9509607895@upi';
-    const amount = 500;
     const name = 'Panne Khan';
     const url = `upi://pay?pa=${upi}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR`;
     window.location.href = url;
   }
 
   screenshot.addEventListener('change', () => {
-    let fileName = screenshot.files[0]?.name.toLowerCase();
-    if(fileName.includes('panne') || fileName.includes('500') || fileName.includes('300')) {
+    const fileName = screenshot.files[0]?.name.toLowerCase();
+    if(fileName.includes('100') || fileName.includes('200') || fileName.includes('300') || fileName.includes('400') || fileName.includes('500') || fileName.includes('panne')) {
       submitBtn.disabled = false;
     } else {
-      alert('⚠️ कृपया सही स्क्रीनशॉट अपलोड करें जिसमें ₹300 या ₹500 भुगतान दिखे।');
+      alert('⚠️ कृपया सही स्क्रीनशॉट अपलोड करें जिसमें सही भुगतान राशि दिखे।');
       submitBtn.disabled = true;
     }
   });
