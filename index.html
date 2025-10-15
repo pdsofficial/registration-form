@@ -11,17 +11,19 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
+      padding: 10px;
     }
     .form-container {
       background-color: white;
       padding: 25px;
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      width: 320px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
     }
     .form-container h2 {
-      text-align: center;
       margin-bottom: 20px;
     }
     input, select, button {
@@ -36,10 +38,19 @@
       background-color: #aaa;
       cursor: not-allowed;
     }
-    .qr-btn {
-      background-color: #4CAF50;
-      color: white;
+    .qr-section {
+      margin: 20px 0;
+    }
+    .qr-section img {
+      width: 100%;
+      max-width: 300px;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+    .qr-section p {
       font-weight: bold;
+      margin-bottom: 10px;
+      font-size: 16px;
     }
   </style>
 </head>
@@ -58,10 +69,11 @@
       <option value="other">Other</option>
     </select>
 
-    <!-- QR Payment Button -->
-    <button type="button" class="qr-btn" id="qrPayBtn">
-      ₹500 पेमेंट करें
-    </button>
+    <!-- QR Code Section -->
+    <div class="qr-section">
+      <p>पेमेंट करने के लिए QR Scanner को स्कैन करें</p>
+      <img id="qrImage" src="https://i.postimg.cc/5Yw384qL/Account-QRCode-1785-LIGHT-THEME.png" alt="Mera QR स्कैनर">
+    </div>
 
     <!-- Screenshot Upload -->
     <input type="file" id="screenshot" accept="image/*" required>
@@ -71,7 +83,7 @@
 </div>
 
 <script>
-  const qrPayBtn = document.getElementById('qrPayBtn');
+  const qrImage = document.getElementById('qrImage');
   const screenshot = document.getElementById('screenshot');
   const submitBtn = document.getElementById('submitBtn');
   const form = document.getElementById('registrationForm');
@@ -79,26 +91,21 @@
   // UPI Payment link for ₹500 to 9509607895
   const upiLink = "upi://pay?pa=9509607895@upi&pn=PaniyaDigitalSuccess&am=500&cu=INR";
 
-  qrPayBtn.addEventListener('click', () => {
-    // Open UPI app
+  // Clicking QR opens UPI app
+  qrImage.addEventListener('click', () => {
     window.location.href = upiLink;
     alert("UPI ऐप में ₹500 पेमेंट करें और स्क्रीनशॉट अपलोड करें।");
   });
 
   // Enable submit button when screenshot is uploaded
   screenshot.addEventListener('change', () => {
-    if(screenshot.files.length > 0) {
-      submitBtn.disabled = false;
-    } else {
-      submitBtn.disabled = true;
-    }
+    submitBtn.disabled = screenshot.files.length === 0;
   });
 
+  // On form submit
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     alert("🎉 Congratulations! Registration Successful.");
-    
-    // Redirect to WhatsApp (आप अपना लिंक बदल सकते हैं)
     window.location.href = "https://wa.me/9509607895";
   });
 </script>
