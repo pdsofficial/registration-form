@@ -3,253 +3,201 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Paniya Digital Success Registration</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<title>Paniya Digital Success - Registration Form</title>
 <style>
-/* ======= Dark Theme & Body ======= */
-body {
-    font-family: 'Arial', sans-serif;
-    background: #121212;
+  :root {
+    --bg: #f5f5f5;
+    --text: #222;
+    --card: #fff;
+    --accent: #007bff;
+  }
+  [data-theme="dark"] {
+    --bg: #121212;
+    --text: #f5f5f5;
+    --card: #1e1e1e;
+    --accent: #00bcd4;
+  }
+  [data-theme="blue"] {
+    --bg: #eaf2ff;
+    --text: #001b44;
+    --card: #fff;
+    --accent: #0044cc;
+  }
+  [data-theme="golden"] {
+    --bg: #fffaf0;
+    --text: #3b2f00;
+    --card: #fff5cc;
+    --accent: #c49b00;
+  }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--bg);
+    color: var(--text);
     margin: 0;
     padding: 0;
-    color: #e0e0e0;
-}
-
-.container {
-    max-width: 520px;
-    margin: 50px auto;
-    background: #1e1e1e;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
-}
-
-h1 {
-    text-align: center;
-    color: #ffffff;
-    margin-bottom: 20px;
-    font-size: 28px;
-    letter-spacing: 1px;
-}
-
-/* ======= Form Fields ======= */
-form {
     display: flex;
-    flex-direction: column;
-}
-
-label {
-    margin: 10px 0 5px;
-    font-weight: bold;
-}
-
-input[type="text"], input[type="tel"], input[type="file"] {
-    padding: 12px;
-    margin-bottom: 15px;
-    border-radius: 6px;
-    border: 1px solid #333;
-    background: #222;
-    color: #fff;
-    width: 100%;
-}
-
-input[type="radio"] {
-    margin-right: 5px;
-}
-
-/* ======= Payment Buttons ======= */
-.payment-options {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 15px;
-}
-
-.payment-options button {
-    padding: 12px 15px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 8px;
-    flex: 1;
-    margin: 0 5px;
-    color: #fff;
-    transition: 0.3s;
-}
-
-#paytmBtn {background: #0b6ef3;}
-#gpayBtn {background: #34a853;}
-#phonepeBtn {background: #78288c;}
-
-.payment-options button i {
-    font-size: 20px;
-}
-
-/* ======= QR Section ======= */
-#qrSection {
-    display: none;
+    min-height: 100vh;
+  }
+  .form-container {
+    background: var(--card);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    border-radius: 16px;
+    width: 95%;
+    max-width: 500px;
+    padding: 25px;
+    position: relative;
+  }
+  h2 {
     text-align: center;
-    margin-bottom: 15px;
-}
-
-#qrSection img {
-    width: 220px;
-    height: 220px;
-    border: 2px solid #555;
-    border-radius: 12px;
-}
-
-/* ======= Submit Button ======= */
-button#submitBtn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 14px;
-    border: none;
+    color: var(--accent);
+  }
+  label {
+    display: block;
+    margin-top: 15px;
+    font-weight: 600;
+  }
+  input, select {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid var(--accent);
     border-radius: 8px;
+    outline: none;
+    font-size: 16px;
+  }
+  .payment-options img {
+    width: 70px;
+    margin: 8px;
     cursor: pointer;
-    font-size: 16px;
-    transition: 0.3s;
-}
-
-button#submitBtn:disabled {
-    background-color: #555;
-    cursor: not-allowed;
-}
-
-button#submitBtn:hover:enabled {
-    background-color: #45a049;
-}
-
-/* ======= Success Message ======= */
-#successMsg {
-    display: none;
-    background: #2e7d32;
-    color: #c8e6c9;
-    padding: 15px;
+    transition: transform 0.2s;
+  }
+  .payment-options img:hover {
+    transform: scale(1.1);
+  }
+  .theme-selector {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+  }
+  button {
     margin-top: 20px;
+    width: 100%;
+    background: var(--accent);
+    border: none;
+    color: white;
+    padding: 12px;
     border-radius: 8px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  button:hover {
+    background: #0056b3;
+  }
+  .qr-box {
     text-align: center;
-    font-weight: bold;
-    font-size: 16px;
-}
-
-/* ======= Responsive ======= */
-@media (max-width: 600px){
-    .payment-options {
-        flex-direction: column;
-    }
-    .payment-options button {
-        margin: 5px 0;
-    }
-}
+    margin-top: 15px;
+  }
+  .qr-box img {
+    width: 160px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+  .qr-box img:hover {
+    transform: scale(1.1);
+  }
 </style>
 </head>
-<body>
+<body data-theme="light">
 
-<div class="container">
-<h1>Paniya Digital Success</h1>
-<form id="registrationForm">
-    <!-- Name -->
-    <label for="name">पूरा नाम</label>
-    <input type="text" id="name" name="name" placeholder="अपना पूरा नाम डालें" required>
+<div class="theme-selector">
+  <select id="themeSelect">
+    <option value="light">🌞 Light</option>
+    <option value="dark">🌙 Dark</option>
+    <option value="blue">💙 Blue</option>
+    <option value="golden">✨ Golden</option>
+  </select>
+</div>
 
-    <!-- Mobile -->
-    <label for="phone">मोबाइल नंबर</label>
-    <input type="tel" id="phone" name="phone" placeholder="10 अंकों का नंबर" required>
+<div class="form-container">
+  <h2>Paniya Digital Success Registration</h2>
+  <form id="regForm">
+    <label>पूरा नाम:</label>
+    <input type="text" id="name" required>
 
-    <!-- Gender -->
-    <label>जेंडर</label>
-    <input type="radio" name="gender" value="पुरुष" required> पुरुष
-    <input type="radio" name="gender" value="महिला" required> महिला
-    <input type="radio" name="gender" value="अन्य" required> अन्य
+    <label>मोबाइल नंबर:</label>
+    <input type="tel" id="mobile" pattern="[0-9]{10}" required>
 
-    <!-- Payment Method -->
-    <label>पेमेंट मेथड (₹500)</label>
+    <label>जेंडर:</label>
+    <select id="gender" required>
+      <option value="">चुनें</option>
+      <option>Male</option>
+      <option>Female</option>
+      <option>Other</option>
+    </select>
+
+    <label>पेमेंट मेथड चुनें:</label>
     <div class="payment-options">
-        <button type="button" id="paytmBtn" onclick="pay('Paytm')"><i class="fa-brands fa-paypal"></i> Paytm</button>
-        <button type="button" id="gpayBtn" onclick="pay('Google Pay')"><i class="fa-brands fa-google-pay"></i> GPay</button>
-        <button type="button" id="phonepeBtn" onclick="pay('PhonePe')"><i class="fa-solid fa-mobile-screen"></i> PhonePe</button>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Paytm_logo.png" alt="Paytm" onclick="makePayment('paytm')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Google_Pay_%28GPay%29_Logo.svg" alt="Google Pay" onclick="makePayment('gpay')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/PhonePe_Logo.png" alt="PhonePe" onclick="makePayment('phonepe')">
     </div>
 
-    <!-- QR Section -->
-    <div id="qrSection">
-        <p>QR स्कैन करके पेमेंट करें:</p>
-        <img src="AccountQRCodeराजस्थान मरुधरा ग्रामीण बैंक - 1785_LIGHT_THEME.png" alt="UPI QR Code">
+    <div class="qr-box">
+      <p>या नीचे QR स्कैनर से पेमेंट करें:</p>
+      <img src="AccountQRCodeराजस्थान मरुधरा ग्रामीण बैंक - 1785_LIGHT_THEME.png" alt="Paniya QR" onclick="makePayment('qr')">
     </div>
 
-    <!-- Screenshot Upload -->
-    <label>पेमेंट स्क्रीनशॉट अपलोड करें</label>
+    <label>पेमेंट स्क्रीनशॉट अपलोड करें:</label>
     <input type="file" id="screenshot" accept="image/*" required>
 
-    <!-- Submit -->
     <button type="submit" id="submitBtn" disabled>सबमिट करें</button>
-</form>
-
-<div id="successMsg">
-    कंग्रॅजुलेशन! अब आप पनिया डिजिटल सक्सेस टीम का हिस्सा बन चुके हैं।
-</div>
+  </form>
 </div>
 
 <script>
-let paymentDone = false;
-let screenshotVerified = false;
+  const form = document.getElementById('regForm');
+  const screenshot = document.getElementById('screenshot');
+  const submitBtn = document.getElementById('submitBtn');
+  const themeSelect = document.getElementById('themeSelect');
 
-// Payment function
-function pay(method) {
-    paymentDone = true;
-    const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-    if(isMobile){
-        let upiLink = '';
-        switch(method){
-            case 'Paytm':
-                upiLink = 'upi://pay?pa=pannekhan@paytm&pn=Panne Khan&am=500&cu=INR';
-                break;
-            case 'Google Pay':
-                upiLink = 'upi://pay?pa=pannekhan@okaxis&pn=Panne Khan&am=500&cu=INR';
-                break;
-            case 'PhonePe':
-                upiLink = 'upi://pay?pa=pannekhan@ybl&pn=Panne Khan&am=500&cu=INR';
-                break;
-        }
-        window.location.href = upiLink;
+  let paymentSelected = false;
+
+  themeSelect.addEventListener('change', () => {
+    document.body.setAttribute('data-theme', themeSelect.value);
+  });
+
+  function makePayment(method) {
+    paymentSelected = true;
+    const upi = '9509607895@upi';
+    const amount = 500;
+    const name = 'Panne Khan';
+    const url = `upi://pay?pa=${upi}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR`;
+    window.location.href = url;
+  }
+
+  screenshot.addEventListener('change', () => {
+    let fileName = screenshot.files[0]?.name.toLowerCase();
+    if(fileName.includes('panne') || fileName.includes('500') || fileName.includes('300')) {
+      submitBtn.disabled = false;
     } else {
-        document.getElementById('qrSection').style.display = 'block';
-        alert(method + " पेमेंट के लिए QR स्कैन करें।");
+      alert('⚠️ कृपया सही स्क्रीनशॉट अपलोड करें जिसमें ₹300 या ₹500 भुगतान दिखे।');
+      submitBtn.disabled = true;
     }
-    checkSubmitEnable();
-}
+  });
 
-// Screenshot upload
-document.getElementById('screenshot').addEventListener('change', function(event){
-    const file = event.target.files[0];
-    if(file){
-        screenshotVerified = true;
-        checkSubmitEnable();
-    }
-});
-
-function checkSubmitEnable() {
-    const submitBtn = document.getElementById('submitBtn');
-    if(paymentDone && screenshotVerified){
-        submitBtn.disabled = false;
-    } else {
-        submitBtn.disabled = true;
-    }
-}
-
-// Form submission
-document.getElementById('registrationForm').addEventListener('submit', function(e){
+  form.addEventListener('submit', e => {
     e.preventDefault();
-    document.getElementById('successMsg').style.display = 'block';
-
-    // WhatsApp redirect
-    const phone = '9509607895';
-    const message = encodeURIComponent("हाय! मैं पनिया डिजिटल सक्सेस टीम का हिस्सा बन चुका हूँ।");
-    window.location.href = `https://wa.me/${phone}?text=${message}`;
-});
+    alert('🎉 Congratulation! अब आप Paniya Digital Success टीम का हिस्सा बन चुके हैं!');
+    window.location.href = "https://wa.me/919509607895?text=मैंने%20रजिस्ट्रेशन%20फॉर्म%20पूरा%20भर%20दिया%20है%20✅";
+  });
 </script>
-
 </body>
 </html>
