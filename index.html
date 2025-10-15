@@ -3,34 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Member Registration - Paniya Digital Success</title>
+  <title>Paniya Digital Success - Member Registration</title>
   <style>
     body {
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: linear-gradient(180deg, #e8f7ff, #ffffff);
+      font-family: "Poppins", Arial, sans-serif;
+      background-color: #fff7e6;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       margin: 0;
     }
-    .form-container {
-      background: #fff;
+    .form-box {
+      background: #ffffff;
+      border: 1px solid #ffd27f;
+      border-radius: 12px;
       padding: 25px 30px;
-      border-radius: 15px;
-      box-shadow: 0 5px 25px rgba(0,0,0,0.1);
-      width: 320px;
+      width: 340px;
+      box-shadow: 0 6px 18px rgba(255, 153, 0, 0.25);
     }
     h2 {
       text-align: center;
-      color: #1a73e8;
+      color: #ff9f00;
       margin-bottom: 20px;
+      font-weight: 700;
     }
     label {
       display: block;
-      margin-bottom: 5px;
-      color: #333;
       font-weight: 600;
+      color: #444;
+      margin-bottom: 5px;
       font-size: 14px;
     }
     input, select {
@@ -54,24 +56,30 @@
     button {
       width: 100%;
       padding: 12px;
-      background: #25D366;
-      color: white;
+      background: #ffb84d;
       border: none;
-      border-radius: 10px;
-      font-size: 16px;
+      color: white;
+      font-size: 15px;
       font-weight: bold;
+      border-radius: 8px;
       cursor: pointer;
       transition: 0.3s;
     }
     button:hover {
-      background: #1eb954;
+      background: #ff9f00;
+    }
+    footer {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 12px;
+      color: #888;
     }
   </style>
 </head>
 <body>
 
-  <div class="form-container">
-    <h2>Member Registration</h2>
+  <div class="form-box">
+    <h2>Paniya Digital Success<br>Member Registration</h2>
     <form id="waForm" onsubmit="return sendToWhatsApp(event)">
       <label>पूरा नाम</label>
       <input type="text" id="name" placeholder="अपना नाम लिखें" required>
@@ -86,8 +94,19 @@
         <label><input type="radio" name="gender" value="Other"> अन्य</label>
       </div>
 
+      <label>कंट्री</label>
+      <select id="country" required>
+        <option value="">-- देश चुनें --</option>
+        <option value="India">🇮🇳 India</option>
+        <option value="Nepal">🇳🇵 Nepal</option>
+        <option value="Bangladesh">🇧🇩 Bangladesh</option>
+        <option value="Pakistan">🇵🇰 Pakistan</option>
+        <option value="Other">🌍 Other</option>
+      </select>
+
       <button type="submit">Join Paniya Digital Success</button>
     </form>
+    <footer>© 2025 Paniya Digital Success</footer>
   </div>
 
   <script>
@@ -97,16 +116,15 @@
       const name = document.getElementById("name").value.trim();
       const phone = document.getElementById("phone").value.trim();
       const gender = document.querySelector('input[name="gender"]:checked')?.value || "";
+      const country = document.getElementById("country").value;
 
-      if (!name || !phone || !gender) {
+      if (!name || !phone || !gender || !country) {
         alert("कृपया सभी जानकारी भरें।");
         return false;
       }
 
-      const msg = `📋 *New Member Registration*\n\n👤 नाम: ${name}\n📞 मोबाइल: ${phone}\n⚧ जेंडर: ${gender}\n\n💼 *Paniya Digital Success*`;
+      const msg = `📋 *New Member Registration*\n\n👤 नाम: ${name}\n📞 मोबाइल: ${phone}\n⚧ जेंडर: ${gender}\n🌍 देश: ${country}\n\n💼 *Paniya Digital Success*`;
       const encodedMsg = encodeURIComponent(msg);
-
-      // आपका WhatsApp नंबर (India code +91 के साथ)
       const waLink = `https://wa.me/919509607895?text=${encodedMsg}`;
 
       window.open(waLink, "_blank");
