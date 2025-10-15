@@ -25,7 +25,7 @@ button:disabled{opacity:0.5;cursor:not-allowed;}
 .qr-box img:hover{transform:scale(1.1);}
 .admin-theme{position:absolute;top:15px;right:15px;display:flex;flex-direction:column;gap:10px;}
 .admin-payment{position:absolute;top:15px;left:15px;display:flex;flex-direction:column;gap:10px;}
-.admin-theme select, .admin-payment select{padding:5px;border-radius:8px;border:1px solid var(--accent);font-weight:bold;}
+.admin-theme select,.admin-payment select{padding:5px;border-radius:8px;border:1px solid var(--accent);font-weight:bold;}
 </style>
 </head>
 <body data-theme="light">
@@ -108,20 +108,36 @@ if(isAdmin){
   priceSelect.value=amount;
 }
 
-themeSelect?.addEventListener('change',()=>{document.body.setAttribute('data-theme',themeSelect.value);localStorage.setItem('formTheme',themeSelect.value);});
-priceSelect?.addEventListener('change',()=>{amount=priceSelect.value;localStorage.setItem('paymentAmount',amount);alert(`✅ Payment amount set to ₹${amount}`);});
+themeSelect?.addEventListener('change',()=>{
+  document.body.setAttribute('data-theme',themeSelect.value);
+  localStorage.setItem('formTheme',themeSelect.value);
+});
+priceSelect?.addEventListener('change',()=>{
+  amount=priceSelect.value;
+  localStorage.setItem('paymentAmount',amount);
+  alert(`✅ Payment amount set to ₹${amount}`);
+});
 
 function makePayment(method){
   const upi='9509607895@upi';
   const name='Panne Khan';
   const url=`upi://pay?pa=${upi}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR`;
+  // Mobile UPI open attempt
   window.location.href=url;
+  // Fallback alert for unsupported browsers
+  setTimeout(()=>{
+    alert("⚠️ कृपया अपने मोबाइल पर UPI ऐप से पेमेंट करें।");
+  },500);
 }
 
 screenshot.addEventListener('change',()=>{
   const fileName=screenshot.files[0]?.name.toLowerCase();
-  if(fileName.includes('100')||fileName.includes('200')||fileName.includes('300')||fileName.includes('400')||fileName.includes('500')||fileName.includes('panne')){submitBtn.disabled=false;}
-  else{alert('⚠️ कृपया सही स्क्रीनशॉट अपलोड करें जिसमें सही भुगतान राशि दिखे।');submitBtn.disabled=true;}
+  if(fileName.includes('100')||fileName.includes('200')||fileName.includes('300')||fileName.includes('400')||fileName.includes('500')||fileName.includes('panne')){
+    submitBtn.disabled=false;
+  } else {
+    alert('⚠️ कृपया सही स्क्रीनशॉट अपलोड करें जिसमें सही भुगतान राशि दिखे।');
+    submitBtn.disabled=true;
+  }
 });
 
 form.addEventListener('submit',e=>{
