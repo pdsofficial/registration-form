@@ -5,147 +5,41 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Paniya Digital Success - Registration</title>
 <style>
-  :root {
-    --bg: #f5f5f5;
-    --text: #222;
-    --card: #fff;
-    --accent: #007bff;
-  }
-  [data-theme="dark"] {
-    --bg: #121212;
-    --text: #f5f5f5;
-    --card: #1e1e1e;
-    --accent: #00bcd4;
-  }
-  [data-theme="blue"] {
-    --bg: #eaf2ff;
-    --text: #001b44;
-    --card: #fff;
-    --accent: #0044cc;
-  }
-  [data-theme="golden"] {
-    --bg: #fffaf0;
-    --text: #3b2f00;
-    --card: #fff5cc;
-    --accent: #c49b00;
-  }
-
-  body {
-    font-family: 'Poppins', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-  }
-
-  .form-container {
-    background: var(--card);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-    border-radius: 16px;
-    width: 95%;
-    max-width: 500px;
-    padding: 25px;
-    position: relative;
-  }
-
-  h2 {
-    text-align: center;
-    color: var(--accent);
-  }
-
-  label {
-    display: block;
-    margin-top: 15px;
-    font-weight: 600;
-  }
-
-  input, select {
-    width: 100%;
-    padding: 10px;
-    border: 2px solid var(--accent);
-    border-radius: 8px;
-    outline: none;
-    font-size: 16px;
-  }
-
-  .payment-options img {
-    width: 70px;
-    margin: 8px;
-    cursor: pointer;
-    transition: transform 0.2s;
-  }
-
-  .payment-options img:hover {
-    transform: scale(1.1);
-  }
-
-  button {
-    margin-top: 20px;
-    width: 100%;
-    background: var(--accent);
-    border: none;
-    color: white;
-    padding: 12px;
-    border-radius: 8px;
-    font-size: 18px;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-
-  button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  .qr-box {
-    text-align: center;
-    margin-top: 15px;
-  }
-
-  .qr-box img {
-    width: 160px;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: transform 0.3s;
-  }
-
-  .qr-box img:hover {
-    transform: scale(1.1);
-  }
-
-  .admin-controls {
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .admin-controls select {
-    padding: 5px;
-    border-radius: 8px;
-    border: 1px solid var(--accent);
-    font-weight: bold;
-  }
-
+:root{
+  --bg:#f5f5f5; --text:#222; --card:#fff; --accent:#007bff;
+}
+[data-theme="dark"]{--bg:#121212;--text:#f5f5f5;--card:#1e1e1e;--accent:#00bcd4;}
+[data-theme="blue"]{--bg:#eaf2ff;--text:#001b44;--card:#fff;--accent:#0044cc;}
+[data-theme="golden"]{--bg:#fffaf0;--text:#3b2f00;--card:#fff5cc;--accent:#c49b00;}
+body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);margin:0;padding:0;display:flex;justify-content:center;align-items:center;min-height:100vh;}
+.form-container{background:var(--card);box-shadow:0 4px 20px rgba(0,0,0,0.2);border-radius:16px;width:95%;max-width:500px;padding:25px;position:relative;}
+h2{text-align:center;color:var(--accent);}
+label{display:block;margin-top:15px;font-weight:600;}
+input, select{width:100%;padding:10px;border:2px solid var(--accent);border-radius:8px;outline:none;font-size:16px;}
+.payment-options img{width:70px;margin:8px;cursor:pointer;transition:transform 0.2s;}
+.payment-options img:hover{transform:scale(1.1);}
+button{margin-top:20px;width:100%;background:var(--accent);border:none;color:white;padding:12px;border-radius:8px;font-size:18px;cursor:pointer;transition:background 0.3s;}
+button:disabled{opacity:0.5;cursor:not-allowed;}
+.qr-box{text-align:center;margin-top:15px;}
+.qr-box img{width:160px;border-radius:12px;cursor:pointer;transition:transform 0.3s;}
+.qr-box img:hover{transform:scale(1.1);}
+.admin-theme{position:absolute;top:15px;right:15px;display:flex;flex-direction:column;gap:10px;}
+.admin-payment{position:absolute;top:15px;left:15px;display:flex;flex-direction:column;gap:10px;}
+.admin-theme select, .admin-payment select{padding:5px;border-radius:8px;border:1px solid var(--accent);font-weight:bold;}
 </style>
 </head>
 <body data-theme="light">
 
 <div class="form-container">
-  <div class="admin-controls" id="adminControls" style="display:none;">
+  <div class="admin-theme" id="adminTheme" style="display:none;">
     <select id="themeSelect">
       <option value="light">🌞 Light</option>
       <option value="dark">🌙 Dark</option>
       <option value="blue">💙 Blue</option>
       <option value="golden">✨ Golden</option>
     </select>
-
+  </div>
+  <div class="admin-payment" id="adminPayment" style="display:none;">
     <select id="priceSelect">
       <option value="100">₹100</option>
       <option value="200">₹200</option>
@@ -180,8 +74,8 @@
     </div>
 
     <div class="qr-box">
-      <p>या नीचे QR स्कैनर से पेमेंट करें:</p>
-      <img src="AccountQRCodeराजस्थान मरुधरा ग्रामीण बैंक - 1785_LIGHT_THEME.png" alt="Paniya QR" onclick="makePayment('qr')">
+      <p>QR Scanner से पेमेंट करें:</p>
+      <img src="AccountQRCodeराजस्थान मरुधरा ग्रामीण बैंक - 1785_LIGHT_THEME.png" alt="QR Scanner" onclick="makePayment('qr')">
     </div>
 
     <label>पेमेंट स्क्रीनशॉट अपलोड करें:</label>
@@ -192,59 +86,49 @@
 </div>
 
 <script>
-  const form = document.getElementById('regForm');
-  const screenshot = document.getElementById('screenshot');
-  const submitBtn = document.getElementById('submitBtn');
-  const themeSelect = document.getElementById('themeSelect');
-  const priceSelect = document.getElementById('priceSelect');
-  const adminControls = document.getElementById('adminControls');
+const form=document.getElementById('regForm');
+const screenshot=document.getElementById('screenshot');
+const submitBtn=document.getElementById('submitBtn');
+const themeSelect=document.getElementById('themeSelect');
+const priceSelect=document.getElementById('priceSelect');
+const adminTheme=document.getElementById('adminTheme');
+const adminPayment=document.getElementById('adminPayment');
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const isAdmin = urlParams.get('admin') === 'true';
+const urlParams=new URLSearchParams(window.location.search);
+const isAdmin=urlParams.get('admin')==='true';
 
-  let amount = localStorage.getItem('paymentAmount') || 500;
-  let theme = localStorage.getItem('formTheme') || 'light';
+let amount=localStorage.getItem('paymentAmount')||500;
+let theme=localStorage.getItem('formTheme')||'light';
+document.body.setAttribute('data-theme',theme);
 
-  document.body.setAttribute('data-theme', theme);
-  if (isAdmin) {
-    adminControls.style.display = 'flex';
-    themeSelect.value = theme;
-    priceSelect.value = amount;
-  }
+if(isAdmin){
+  adminTheme.style.display='flex';
+  adminPayment.style.display='flex';
+  themeSelect.value=theme;
+  priceSelect.value=amount;
+}
 
-  themeSelect?.addEventListener('change', () => {
-    document.body.setAttribute('data-theme', themeSelect.value);
-    localStorage.setItem('formTheme', themeSelect.value);
-  });
+themeSelect?.addEventListener('change',()=>{document.body.setAttribute('data-theme',themeSelect.value);localStorage.setItem('formTheme',themeSelect.value);});
+priceSelect?.addEventListener('change',()=>{amount=priceSelect.value;localStorage.setItem('paymentAmount',amount);alert(`✅ Payment amount set to ₹${amount}`);});
 
-  priceSelect?.addEventListener('change', () => {
-    amount = priceSelect.value;
-    localStorage.setItem('paymentAmount', amount);
-    alert(`✅ Payment amount set to ₹${amount}`);
-  });
+function makePayment(method){
+  const upi='9509607895@upi';
+  const name='Panne Khan';
+  const url=`upi://pay?pa=${upi}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR`;
+  window.location.href=url;
+}
 
-  function makePayment(method) {
-    const upi = '9509607895@upi';
-    const name = 'Panne Khan';
-    const url = `upi://pay?pa=${upi}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR`;
-    window.location.href = url;
-  }
+screenshot.addEventListener('change',()=>{
+  const fileName=screenshot.files[0]?.name.toLowerCase();
+  if(fileName.includes('100')||fileName.includes('200')||fileName.includes('300')||fileName.includes('400')||fileName.includes('500')||fileName.includes('panne')){submitBtn.disabled=false;}
+  else{alert('⚠️ कृपया सही स्क्रीनशॉट अपलोड करें जिसमें सही भुगतान राशि दिखे।');submitBtn.disabled=true;}
+});
 
-  screenshot.addEventListener('change', () => {
-    const fileName = screenshot.files[0]?.name.toLowerCase();
-    if(fileName.includes('100') || fileName.includes('200') || fileName.includes('300') || fileName.includes('400') || fileName.includes('500') || fileName.includes('panne')) {
-      submitBtn.disabled = false;
-    } else {
-      alert('⚠️ कृपया सही स्क्रीनशॉट अपलोड करें जिसमें सही भुगतान राशि दिखे।');
-      submitBtn.disabled = true;
-    }
-  });
-
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    alert('🎉 Congratulation! अब आप Paniya Digital Success टीम का हिस्सा बन चुके हैं!');
-    window.location.href = "https://wa.me/919509607895?text=मैंने%20रजिस्ट्रेशन%20फॉर्म%20पूरा%20भर%20दिया%20है%20✅";
-  });
+form.addEventListener('submit',e=>{
+  e.preventDefault();
+  alert('🎉 Congratulation! अब आप Paniya Digital Success टीम का हिस्सा बन चुके हैं!');
+  window.location.href="https://wa.me/919509607895?text=मैंने%20रजिस्ट्रेशन%20फॉर्म%20पूरा%20भर%20दिया%20है%20✅";
+});
 </script>
 </body>
 </html>
