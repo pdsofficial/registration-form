@@ -3,11 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Paniya Digital Success - Registration</title>
+  <title>Paniya Digital Success Registration</title>
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
     body {
-      font-family: 'Poppins', sans-serif;
-      background: #f8fafc;
+      font-family: "Poppins", sans-serif;
+      background: #f1f5f9;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -15,39 +20,70 @@
     }
     .form-box {
       background: white;
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 30px 25px;
+      border-radius: 20px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
       width: 90%;
-      max-width: 400px;
+      max-width: 420px;
+      text-align: center;
     }
-    h2 { text-align: center; color: #2563eb; }
+    h2 {
+      color: #2563eb;
+      margin-bottom: 10px;
+    }
     input, select {
-      width: 100%; padding: 10px; margin: 8px 0;
-      border: 1px solid #ccc; border-radius: 8px;
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 15px;
     }
-    button {
-      width: 100%; padding: 10px;
-      background: #2563eb; color: white; border: none;
-      border-radius: 8px; font-size: 16px;
-      cursor: pointer; opacity: 0.6;
-    }
-    button.enabled { opacity: 1; }
     .payment-btn {
-      background: #f1f5f9;
-      color: #111; border: 1px solid #ccc;
-      margin: 5px 0; cursor: pointer;
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      background: #f8fafc;
+      font-size: 16px;
+      cursor: pointer;
     }
-    .payment-btn:hover { background: #e2e8f0; }
+    .payment-btn:hover {
+      background: #e2e8f0;
+    }
+    button[type="submit"] {
+      width: 100%;
+      padding: 12px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 17px;
+      margin-top: 10px;
+      cursor: pointer;
+      opacity: 0.6;
+    }
+    button.enabled {
+      opacity: 1;
+    }
+    #msg {
+      display: none;
+      margin-top: 15px;
+      color: green;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
 
   <div class="form-box">
-    <h2>रजिस्ट्रेशन फॉर्म</h2>
+    <h2>Join Paniya Digital Success</h2>
+    <p>कृपया नीचे अपना विवरण भरें और ₹500 UPI से भुगतान करें।</p>
+
     <form id="pdsForm">
       <input type="text" id="name" placeholder="पूरा नाम" required>
-      <input type="tel" id="mobile" placeholder="मोबाइल नंबर" required>
+      <input type="tel" id="mobile" placeholder="10 अंकों का मोबाइल नंबर" required>
       <select id="gender" required>
         <option value="">जेंडर चुनें</option>
         <option value="male">पुरुष</option>
@@ -55,7 +91,7 @@
         <option value="other">अन्य</option>
       </select>
 
-      <h3>पेमेंट मेथड</h3>
+      <h3>पेमेंट मेथड (₹500)</h3>
       <button type="button" class="payment-btn" onclick="pay('paytm')">🟦 Paytm</button>
       <button type="button" class="payment-btn" onclick="pay('gpay')">🟩 Google Pay</button>
       <button type="button" class="payment-btn" onclick="pay('phonepe')">🟪 PhonePe</button>
@@ -64,36 +100,34 @@
       <button type="submit" id="submitBtn" disabled>सबमिट करें</button>
     </form>
 
-    <div id="msg" style="display:none; text-align:center; color:green; font-weight:bold; margin-top:20px;">
-      🎉 Congratulations! अब आप Paniya Digital Success में जुड़ चुके हैं।
-    </div>
+    <div id="msg">🎉 Congratulations! अब आप Paniya Digital Success में जुड़ चुके हैं।</div>
   </div>
 
   <script>
-    const submitBtn = document.getElementById('submitBtn');
-    const screenshotInput = document.getElementById('screenshot');
+    const submitBtn = document.getElementById("submitBtn");
+    const screenshotInput = document.getElementById("screenshot");
 
-    // जब तक स्क्रीनशॉट अपलोड न हो जाए, सबमिट अनेबल नहीं होगा
-    screenshotInput.addEventListener('change', () => {
+    screenshotInput.addEventListener("change", () => {
       const file = screenshotInput.files[0];
-      if (file && file.name.toLowerCase().includes('500')) {
+      if (file && file.name.toLowerCase().includes("500")) {
         submitBtn.disabled = false;
-        submitBtn.classList.add('enabled');
+        submitBtn.classList.add("enabled");
       } else {
-        alert('कृपया ₹500 का स्क्रीनशॉट अपलोड करें जिसमें Panne Khan दिखे।');
+        alert("कृपया ₹500 का स्क्रीनशॉट अपलोड करें जिसमें Panne Khan दिखे।");
       }
     });
 
     function pay(app) {
-      let upi = 'upi://pay?pa=9509607895@paytm&pn=Panne%20Khan&am=500&cu=INR';
+      let upi = "upi://pay?pa=9509607895@paytm&pn=Panne%20Khan&am=500&cu=INR";
       window.location.href = upi;
     }
 
-    document.getElementById('pdsForm').addEventListener('submit', (e) => {
+    document.getElementById("pdsForm").addEventListener("submit", (e) => {
       e.preventDefault();
-      document.getElementById('msg').style.display = 'block';
+      document.getElementById("msg").style.display = "block";
       setTimeout(() => {
-        window.location.href = 'https://wa.me/919509607895?text=Hello%20Panne%20Khan!%20मैं%20ने%20फॉर्म%20भरा%20है%20और%20पेमेंट%20किया%20है।';
+        window.location.href =
+          "https://wa.me/919509607895?text=Hello%20Panne%20Khan!%20मैंने%20फॉर्म%20भरा%20और%20पेमेंट%20किया%20है।";
       }, 2000);
     });
   </script>
