@@ -101,7 +101,7 @@
       </div>
 
       <p class="instruction">
-        पहले QR कोड को स्कैन करके अपने UPI ऐप से ₹500 पेमेंट करें, फिर नीचे उसका स्क्रीनशॉट अपलोड करें।
+        पहले QR कोड को स्कैन करके अपने UPI ऐप से ₹10 पेमेंट करें, फिर नीचे उसका स्क्रीनशॉट अपलोड करें।
       </p>
 
       <div class="upload-box">
@@ -120,11 +120,11 @@
     // स्क्रीनशॉट नाम से बेसिक वेरिफिकेशन (डेमो के लिए)
     fileInput.addEventListener('change', () => {
       const file = fileInput.files[0];
-      if (file && (file.name.toLowerCase().includes("panne") || file.name.toLowerCase().includes("500"))) {
+      if (file && (file.name.toLowerCase().includes("panne") || file.name.toLowerCase().includes("10"))) {
         submitBtn.disabled = false;
       } else {
         submitBtn.disabled = true;
-        alert("⚠️ कृपया सही स्क्रीनशॉट अपलोड करें जिसमें 'panne khan ₹500 पेमेंट सफल रहा' दिखे।");
+        alert("⚠️ कृपया सही स्क्रीनशॉट अपलोड करें जिसमें 'panne khan ₹10 पेमेंट सफल रहा' दिखे।");
       }
     });
 
@@ -137,7 +137,7 @@
       const gender = form.gender.value;
 
       // WhatsApp पर Redirect with auto-filled message
-      const msg = `नाम: ${name}%0aनंबर: ${number}%0aजेंडर: ${gender}%0aमैंने ₹500 पेमेंट कर दिया है, स्क्रीनशॉट भेज रहा हूँ।`;
+      const msg = `नाम: ${name}%0aनंबर: ${number}%0aजेंडर: ${gender}%0aमैंने ₹10 पेमेंट कर दिया है, स्क्रीनशॉट भेज रहा हूँ।`;
       window.location.href = `https://wa.me/9509607895?text=${msg}`;
     });
   </script>
