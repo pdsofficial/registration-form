@@ -1,139 +1,150 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Paniya Digital Success Registration</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Paniya Digital Success</title>
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 10px;
+  :root{--card-w:420px}
+  html,body{height:100%;margin:0;font-family:Arial,Helvetica,sans-serif;background:#f2f2f2}
+  .center-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+  .form-card{
+    width:100%;max-width:var(--card-w);background:#fff;border-radius:12px;
+    box-shadow:0 6px 25px rgba(0,0,0,0.12);overflow:hidden;padding:14px;
   }
-  .form-container {
-    background-color: white;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
+  /* पूरी तरह ज़ूम किया हुआ QR-only एरिया (कोई टेक्स्ट नहीं) */
+  .qr-only {
+    width:100%;
+    height:420px;                 /* आवश्यकता अनुसार बढ़ाएँ/घटाएँ */
+    background:#fff;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
   }
-  input, select, button {
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    font-size: 16px;
+  .qr-only img{
+    height:110%;                  /* ज्यादा हाइट ताकि पूरा एरिया QR से भरा रहे */
+    width:auto;
+    object-fit:cover;
+    display:block;
+    cursor:pointer;
+    transform:scale(1.02);        /* साधारण ज़ूम भर दिखाने के लिए */
   }
-  button:disabled {
-    background-color: #aaa;
-    cursor: not-allowed;
+
+  /* बाकी फॉर्म एलिमेंट्स */
+  .fields { padding:12px 2px; }
+  .fields input, .fields select, .fields button{
+    width:100%;box-sizing:border-box;padding:10px 12px;margin:8px 0;border-radius:8px;border:1px solid #ccc;font-size:15px;
   }
-  /* QR को पूरी तरह ज़ूम */
-  .qr-section {
-    width: 100%;
-    height: 350px; /* QR बड़ा दिखाने के लिए */
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 12px;
-    background-color: #fff;
-    margin: 20px 0;
-  }
-  .qr-section img {
-    height: 100%;
-    object-fit: cover; /* बाकी का हिस्सा कट जाए */
-    cursor: pointer;
-  }
-  .error-msg {
-    color: red; /* लाल रंग */
-    font-weight: bold;
-    margin-top: 5px;
-    font-size: 14px;
-    min-height: 20px; /* हमेशा जगह रहे */
+  .fields button{background:#0b86ff;color:#fff;border:none;font-weight:600;padding:12px}
+  .fields button:disabled{background:#bbb;cursor:not-allowed}
+  .error-msg{color:#d62828;font-weight:700;text-align:center;margin-top:6px;min-height:20px}
+  @media(max-width:460px){
+    .qr-only{height:360px}
+    :root{--card-w:360px}
   }
 </style>
+
+<!-- Tesseract JS for OCR -->
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.0.2/dist/tesseract.min.js"></script>
 </head>
 <body>
+  <div class="center-wrap">
+    <div class="form-card" role="region" aria-label="Registration form">
+      <!-- QR-only area: कोई टेक्स्ट नहीं, सिर्फ QR इमेज -->
+      <div class="qr-only">
+        <img id="qrImage" src="https://i.postimg.cc/hjY5WhXy/Account-QRCode-1785-LIGHT-THEME.png" alt="QR Scanner">
+      </div>
 
-<div class="form-container">
-  <form id="registrationForm">
-    <input type="text" id="name" placeholder="नाम" required>
-    <input type="tel" id="mobile" placeholder="मोबाइल नंबर" pattern="[0-9]{10}" required>
-    <select id="gender" required>
-      <option value="">जेंडर चुनें</option>
-      <option value="male">Male</option>
-      <option value="female">Female</option>
-      <option value="other">Other</option>
-    </select>
+      <!-- बाकी फील्ड्स -->
+      <div class="fields">
+        <input id="name" type="text" placeholder="नाम" required />
+        <input id="mobile" type="tel" pattern="[0-9]{10}" placeholder="मोबाइल नंबर" required />
+        <select id="gender" required>
+          <option value="">जेंडर चुनें</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </select>
 
-    <!-- पूरी तरह ज़ूम QR -->
-    <div class="qr-section">
-      <img id="qrImage" src="https://i.postimg.cc/hjY5WhXy/Account-QRCode-1785-LIGHT-THEME.png" alt="Mera QR स्कैनर">
+        <input id="screenshot" type="file" accept="image/*" />
+        <div id="errorMsg" class="error-msg">कृपया पहले पेमेंट करें</div>
+
+        <button id="submitBtn" disabled type="button">सबमिट</button>
+      </div>
     </div>
-
-    <input type="file" id="screenshot" accept="image/*" required>
-    <div id="errorMsg" class="error-msg">कृपया पहले पेमेंट करें</div>
-
-    <button type="submit" id="submitBtn" disabled>सबमिट</button>
-  </form>
-</div>
+  </div>
 
 <script>
+  // Elements
   const qrImage = document.getElementById('qrImage');
   const screenshot = document.getElementById('screenshot');
   const submitBtn = document.getElementById('submitBtn');
-  const form = document.getElementById('registrationForm');
   const errorMsg = document.getElementById('errorMsg');
 
-  // UPI लिंक
+  // UPI लिंक (आपका नंबर और राशि)
   const upiLink = "upi://pay?pa=9509607895@upi&pn=PaniyaDigitalSuccess&am=500&cu=INR";
 
-  // QR पर क्लिक/टच → सीधे UPI ऐप खुले
+  // QR पर टच/क्लिक → यूजर के डिवाइस पर UPI ऐप ओपन होगा
   qrImage.addEventListener('click', () => {
+    // कोशिश: यदि ब्राउज़र UPI URI सपोर्ट करे तो यह मोबाइल पर UPI ऐप खोल देगा
     window.location.href = upiLink;
-    alert("UPI ऐप में ₹500 पेमेंट करें और स्क्रीनशॉट अपलोड करें।");
+    // उपयोगकर्ता को निर्देश
+    setTimeout(()=> {
+      // मोबाइल पर ऐप खुलना चाहिए — optional alert (स्लिम)
+      // alert("UPI ऐप खुल गया होगा — कृपया ₹500 भुगतान करें और स्क्रीनशॉट अपलोड करें।");
+    },150);
   });
 
-  // स्क्रीनशॉट चेक
-  screenshot.addEventListener('change', () => {
-    submitBtn.disabled = true;
-
-    if(screenshot.files.length > 0){
-      const file = screenshot.files[0];
-      const reader = new FileReader();
-      reader.onload = function() {
-        Tesseract.recognize(reader.result, 'eng+hin', { logger: m => console.log(m) })
-        .then(({ data: { text } }) => {
-          console.log("Detected Text:", text);
-          if(text.includes("Panne khan ₹500 पेमेंट सफल रहा")){
-            submitBtn.disabled = false;
-          } else {
-            submitBtn.disabled = true;
-          }
-          // हमेशा लाल रंग में मैसेज दिखाएं
-          errorMsg.textContent = "कृपया पहले पेमेंट करें";
-        });
-      }
-      reader.readAsDataURL(file);
+  // OCR चेक फंक्शन
+  async function checkScreenshotForText(dataURL){
+    try{
+      const res = await Tesseract.recognize(dataURL, 'eng+hin', { logger: m => console.log(m) });
+      const text = (res && res.data && res.data.text) ? res.data.text : '';
+      console.log("OCR detected:", text);
+      // सटीक मैच की आवश्यकता है — आप यहाँ सामंजस्य कर सकते हैं (case-insensitive)
+      const need = "Panne khan ₹500 पेमेंट सफल रहा";
+      // Normalize (remove extra spaces, toLowerCase) for robustness
+      const norm = text.replace(/\s+/g,' ').trim().toLowerCase();
+      const normNeed = need.replace(/\s+/g,' ').trim().toLowerCase();
+      return norm.includes(normNeed);
+    }catch(err){
+      console.error("OCR error:", err);
+      return false;
     }
+  }
+
+  // स्क्रीनशॉट अपलोड हैंडल
+  screenshot.addEventListener('change', async () => {
+    submitBtn.disabled = true;             // पहले disabled रखें
+    errorMsg.textContent = "कृपया पहले पेमेंट करें"; // हमेशा लाल संदेश दिखेगा (CSS द्वारा)
+    if(!screenshot.files || screenshot.files.length === 0) return;
+
+    const file = screenshot.files[0];
+    const reader = new FileReader();
+    reader.onload = async function(ev){
+      const dataURL = ev.target.result;
+      // OCR चलाएँ और सत्यापित करें
+      const ok = await checkScreenshotForText(dataURL);
+      if(ok){
+        submitBtn.disabled = false;
+        // अगर आप चाहें तो संदेश बदल सकते हैं; पर आपने कहा हमेशा दिखे तो हम वही रखना हैं
+        // errorMsg.textContent = ""; // यदि हटाना चाहें तो अन-कॉमेंट करें
+      } else {
+        submitBtn.disabled = true;
+        errorMsg.textContent = "कृपया पहले पेमेंट करें";
+      }
+    };
+    reader.readAsDataURL(file);
   });
 
-  // फॉर्म सबमिट
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
+  // सबमिट बटन के लिये व्यवहार (सफल होने पर WhatsApp रीडायरेक्ट)
+  submitBtn.addEventListener('click', () => {
+    // यहाँ आप सर्वर को भेजने का लॉजिक जोड़ सकते हैं (यदि चाहिए)
     alert("🎉 Congratulations! Registration Successful.");
+    // Redirect to WhatsApp chat (आपका नंबर)
     window.location.href = "https://wa.me/9509607895";
   });
 </script>
-
 </body>
 </html>
