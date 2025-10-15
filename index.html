@@ -5,12 +5,66 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Paniya Digital Success Registration</title>
 <style>
-  body { font-family: Arial; background: #f2f2f2; display:flex; justify-content:center; align-items:center; min-height:100vh; padding:10px; }
-  .form-container { background:white; padding:25px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.2); width:100%; max-width:400px; text-align:center; }
-  input, select, button { width:100%; padding:10px; margin:8px 0; border-radius:6px; border:1px solid #ccc; font-size:16px; }
-  button:disabled { background-color:#aaa; cursor:not-allowed; }
-  .qr-section img { width:100%; max-width:350px; border-radius:12px; cursor:pointer; margin:15px 0; }
-  .error-msg { color:red; font-weight:bold; margin-top:5px; font-size:14px; }
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 10px;
+  }
+  .form-container {
+    background-color: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+  }
+  input, select, button {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+  }
+  button:disabled {
+    background-color: #aaa;
+    cursor: not-allowed;
+  }
+  .qr-section {
+    margin: 20px 0;
+    position: relative;
+    overflow: hidden; /* बाहर के हिस्से कट जाएँ */
+    width: 100%;
+    height: 300px; /* QR को बड़ा दिखाने के लिए */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    background-color: #fff;
+  }
+  .qr-section img {
+    width: auto;
+    height: 100%; /* पूरी ऊंचाई भर दे */
+    object-fit: cover; /* बाकी का एरिया कट जाए */
+    cursor: pointer;
+  }
+  .qr-section p {
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+  .error-msg {
+    color: red;
+    font-weight: bold;
+    margin-top: 5px;
+    font-size: 14px;
+    min-height: 20px; /* हमेशा जगह रहे मैसेज के लिए */
+  }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.0.2/dist/tesseract.min.js"></script>
 </head>
@@ -34,7 +88,7 @@
     </div>
 
     <input type="file" id="screenshot" accept="image/*" required>
-    <div id="errorMsg" class="error-msg"></div>
+    <div id="errorMsg" class="error-msg">कृपया पहले पेमेंट करें</div>
 
     <button type="submit" id="submitBtn" disabled>सबमिट</button>
   </form>
@@ -49,6 +103,7 @@
 
   const upiLink = "upi://pay?pa=9509607895@upi&pn=PaniyaDigitalSuccess&am=500&cu=INR";
 
+  // QR क्लिक करने पर UPI ऐप खुले
   qrImage.addEventListener('click', () => {
     window.location.href = upiLink;
     alert("UPI ऐप में ₹500 पेमेंट करें और स्क्रीनशॉट अपलोड करें।");
@@ -56,7 +111,6 @@
 
   screenshot.addEventListener('change', () => {
     submitBtn.disabled = true;
-    errorMsg.textContent = '';
 
     if(screenshot.files.length > 0){
       const file = screenshot.files[0];
@@ -65,13 +119,14 @@
         Tesseract.recognize(reader.result, 'eng+hin', { logger: m => console.log(m) })
         .then(({ data: { text } }) => {
           console.log("Detected Text:", text);
+          // टेक्स्ट सही है या नहीं
           if(text.includes("Panne khan ₹500 पेमेंट सफल रहा")){
             submitBtn.disabled = false;
-            errorMsg.textContent = '';
           } else {
             submitBtn.disabled = true;
-            errorMsg.textContent = "कृपया पहले पेमेंट करें";
           }
+          // हमेशा मैसेज दिखाएं
+          errorMsg.textContent = "कृपया पहले पेमेंट करें";
         });
       }
       reader.readAsDataURL(file);
