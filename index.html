@@ -1,122 +1,146 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Paniya Digital Success - Registration Form</title>
-
-<style>
-  body {
-    font-family: "Segoe UI", Arial, sans-serif;
-    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-  }
-  .form-container {
-    background: white;
-    padding: 30px;
-    border-radius: 16px;
-    box-shadow: 0 6px 25px rgba(0,0,0,0.15);
-    width: 100%;
-    max-width: 420px;
-    text-align: center;
-  }
-
-  /* 🔹 Header Branding */
-  .form-header {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  .form-header img {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    margin-bottom: 10px;
-  }
-  .form-header h2 {
-    color: #0b5394;
-    font-size: 22px;
-    margin: 0;
-    font-weight: 700;
-  }
-
-  input, select, button {
-    width: 100%;
-    padding: 12px;
-    margin: 8px 0;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-size: 15px;
-  }
-  button {
-    background: #0b86ff;
-    color: #fff;
-    font-weight: 600;
-    border: none;
-    transition: 0.3s;
-  }
-  button:hover:not(:disabled) {
-    background: #0066cc;
-  }
-  button:disabled {
-    background-color: #aaa;
-    cursor: not-allowed;
-  }
-
-  /* 🔹 QR Zoom Section */
-  .qr-section {
-    width: 100%;
-    height: 380px;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 12px;
-    margin: 18px 0;
-  }
-  .qr-section img {
-    height: 110%;
-    object-fit: cover;
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  .qr-section img:hover {
-    transform: scale(1.06);
-    box-shadow: 0 8px 18px rgba(0,0,0,0.4);
-  }
-
-  .error-msg {
-    color: red;
-    font-weight: bold;
-    margin-top: 5px;
-    font-size: 14px;
-    min-height: 20px;
-  }
-
-  @media(max-width:480px){
-    .form-container{padding:20px;}
-    .qr-section{height:320px;}
-  }
-</style>
-
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.0.2/dist/tesseract.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>पनिया डिजिटल सक्सेस रजिस्ट्रेशन</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f1f2f6;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .form-container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+    h2 {
+      color: #2d3436;
+      margin-bottom: 10px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: 600;
+      color: #444;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      margin-top: 5px;
+    }
+    .qr-section {
+      margin: 20px 0;
+    }
+    .qr-section img {
+      width: 100%;
+      max-width: 250px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    p.instruction {
+      font-size: 14px;
+      color: #555;
+      margin: 15px 0;
+    }
+    .upload-box {
+      margin-top: 10px;
+    }
+    button {
+      background-color: #27ae60;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      margin-top: 15px;
+      width: 100%;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:disabled {
+      background-color: #95a5a6;
+      cursor: not-allowed;
+    }
+  </style>
 </head>
 <body>
 
-<div class="form-container">
-  
-  <!-- 🔹 Logo + Title -->
-  <div class="form-header">
-    <img src="https://i.postimg.cc/zB9Vr4cL/pds-logo.png" alt="Paniya Digital Success Logo">
-    <h2>Paniya Digital Success</h2>
-    <p><b>Registration Form</b></p>
+  <div class="form-container">
+    <h2>पनिया डिजिटल सक्सेस फॉर्म</h2>
+
+    <form id="joinForm">
+      <label>पूरा नाम</label>
+      <input type="text" name="name" placeholder="अपना नाम लिखें" required>
+
+      <label>मोबाइल नंबर</label>
+      <input type="tel" name="number" pattern="[0-9]{10}" placeholder="10 अंकों का मोबाइल नंबर" required>
+
+      <label>जेंडर</label>
+      <select name="gender" required>
+        <option value="">चुनें</option>
+        <option>Male</option>
+        <option>Female</option>
+        <option>Other</option>
+      </select>
+
+      <div class="qr-section">
+        <img src="https://i.postimg.cc/hjY5WhXy/Account-QRCode-1785-LIGHT-THEME.png" alt="QR Code">
+      </div>
+
+      <p class="instruction">
+        पहले QR कोड को स्कैन करके अपने UPI ऐप से ₹500 पेमेंट करें, फिर नीचे उसका स्क्रीनशॉट अपलोड करें।
+      </p>
+
+      <div class="upload-box">
+        <input type="file" id="screenshot" accept="image/*" required>
+      </div>
+
+      <button type="submit" id="submitBtn" disabled>सबमिट करें</button>
+    </form>
   </div>
 
-  <form id="registrationForm">
-    <input type="text" id="name" placeholder="नाम" required>
-    <input type="tel" id="mobile" placeholder="मोबाइल नंबर" pattern="[0-9]{10}" required>
-    <select id="gender" required>
-      <option value="">जेंडर चुनें</option>
+  <script>
+    const fileInput = document.getElementById('screenshot');
+    const submitBtn = document.getElementById('submitBtn');
+    const form = document.getElementById('joinForm');
+
+    // स्क्रीनशॉट नाम से बेसिक वेरिफिकेशन (डेमो के लिए)
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files[0];
+      if (file && (file.name.toLowerCase().includes("panne") || file.name.toLowerCase().includes("500"))) {
+        submitBtn.disabled = false;
+      } else {
+        submitBtn.disabled = true;
+        alert("⚠️ कृपया सही स्क्रीनशॉट अपलोड करें जिसमें 'panne khan ₹500 पेमेंट सफल रहा' दिखे।");
+      }
+    });
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert("🎉 Congratulations!\nअब आप पनिया डिजिटल सक्सेस टीम का हिस्सा बन चुके हैं!");
+
+      const name = form.name.value;
+      const number = form.number.value;
+      const gender = form.gender.value;
+
+      // WhatsApp पर Redirect with auto-filled message
+      const msg = `नाम: ${name}%0aनंबर: ${number}%0aजेंडर: ${gender}%0aमैंने ₹500 पेमेंट कर दिया है, स्क्रीनशॉट भेज रहा हूँ।`;
+      window.location.href = `https://wa.me/9509607895?text=${msg}`;
+    });
+  </script>
+
+</body>
+</html>
