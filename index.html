@@ -1,94 +1,118 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="utf-8" />
-  <meta फ़ॉर्मsApp="viewport" content="width=device-width,initial-scale=1" />
-  <title>PDS र्फ़ॉर्म — WhatsApp पर भेजें</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Member Registration - Paniya Digital Success</title>
   <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans",sans-serif;
-         display:flex;align-items:center;justify-content:center;height:100vh;margin:0;
-         background:linear-gradient(180deg,#f7f9fc,#eef6f9);}
-    .card{background:white;padding:20px;border-radius:12px;box-shadow:0 6px 20px rgba(20,30,50,0.08);width:320px;max-width:95%}
-    h1{font-size:18px;margin:0 0 12px}
-    label{display:block;font-size:13px;margin-top:10px;color:#254053}
-    input[type="text"], input[type="tel"], select{
-      width:100%;padding:10px;border-radius:8px;border:1px solid #d6e1ea;font-size:14px;
-      box-sizing:border-box;margin-top:6px;
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(180deg, #e8f7ff, #ffffff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
     }
-    .gender{display:flex;gap:8px;margin-top:8px}
-    .btn{
-      margin-top:16px;padding:10px 14px;border-radius:10px;border:0;
-      background:#25D366;color:white;font-weight:600;font-size:15px;width:100%;
-      cursor:pointer;
+    .form-container {
+      background: #fff;
+      padding: 25px 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+      width: 320px;
     }
-    .note{font-size:12px;color:#6b7c85;margin-top:8px;text-align:center}
-    .small{font-size:12px;color:#9aa6ad;margin-top:6px}
+    h2 {
+      text-align: center;
+      color: #1a73e8;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: #333;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    .gender-group {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+    .gender-group label {
+      font-weight: normal;
+      font-size: 14px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #25D366;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #1eb954;
+    }
   </style>
 </head>
 <body>
-  <form class="card" id="waForm" onsubmit="return handleSubmit(event)">
-    <h1>संपर्क फ़ॉर्म</h1>
 
-    <label for="name">नाम</label>
-    <input id="name" name="name" type="text" placeholder="पूरा नाम" required />
+  <div class="form-container">
+    <h2>Member Registration</h2>
+    <form id="waForm" onsubmit="return sendToWhatsApp(event)">
+      <label>पूरा नाम</label>
+      <input type="text" id="name" placeholder="अपना नाम लिखें" required>
 
-    <label for="phone">मोबाइल नंबर</label>
-    <input id="phone" name="phone" type="tel" placeholder="उदा. 9123456789" pattern="[0-9]{7,15}" required />
+      <label>मोबाइल नंबर</label>
+      <input type="tel" id="phone" placeholder="उदा. 9876543210" required>
 
-    <label>जेंडर</label>
-    <div class="gender">
-      <label><input type="radio" name="gender" value="Male" required /> मेल</label>
-      <label><input type="radio" name="gender" value="Female" /> फीमेल</label>
-      <label><input type="radio" name="gender" value="Other" /> अन्य</label>
-    </div>
+      <label>जेंडर</label>
+      <div class="gender-group">
+        <label><input type="radio" name="gender" value="Male" required> मेल</label>
+        <label><input type="radio" name="gender" value="Female"> फीमेल</label>
+        <label><input type="radio" name="gender" value="Other"> अन्य</label>
+      </div>
 
-    <div class="small">जैसे ही आप सबमिट करेंगे, WhatsApp ओपन होगा और संदेश तैयार हो जाएगा।</div>
-
-    <button type="submit" class="btn">सबमिट और WhatsApp खोलें</button>
-    <div class="note">यदि WhatsApp इंस्टॉल नहीं है तो WhatsApp Web खुलेगा।</div>
-  </form>
+      <button type="submit">Join Paniya Digital Success</button>
+    </form>
+  </div>
 
   <script>
-    // WhatsApp target number (without + or leading zeros). भारत के लिए मैंने +91 जोड़ा:
-    const targetNumber = "919509607895"; // <-- आपका नंबर (country code +91) के साथ
+    function sendToWhatsApp(event) {
+      event.preventDefault();
 
-    function handleSubmit(e) {
-      e.preventDefault();
-      const form = e.target;
-      const name = (form.name.value || "").trim();
-      const phone = (form.phone.value || "").trim();
-      const genderEl = form.querySelector('input[name="gender"]:checked');
-      const gender = genderEl ? genderEl.value : "";
+      const name = document.getElementById("name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const gender = document.querySelector('input[name="gender"]:checked')?.value || "";
 
-      // बेसिक वेलिडेशन
       if (!name || !phone || !gender) {
-        alert("कृपया सभी फ़ील्ड भरें।");
+        alert("कृपया सभी जानकारी भरें।");
         return false;
       }
 
-      // संदेश फॉर्मेट — आप इसे अपनी पसंद के अनुसार बदल सकते हैं
-      const message =
-`नया फॉर्म सबमिशन:
-नाम: ${name}
-मोबाइल: ${phone}
-जेंडर: ${gender}`;
+      const msg = `📋 *New Member Registration*\n\n👤 नाम: ${name}\n📞 मोबाइल: ${phone}\n⚧ जेंडर: ${gender}\n\n💼 *Paniya Digital Success*`;
+      const encodedMsg = encodeURIComponent(msg);
 
-      const encoded = encodeURIComponent(message);
+      // आपका WhatsApp नंबर (India code +91 के साथ)
+      const waLink = `https://wa.me/919509607895?text=${encodedMsg}`;
 
-      // Use wa.me (works both mobile and web)
-      const waUrl = `https://wa.me/${targetNumber}?text=${encoded}`;
-
-      // Try opening in new tab/window. Note: popup blockers may block window.open in some browsers.
-      // Using location.href also works (will navigate current tab).
-      // We'll open in a new tab, and also change location as fallback after a short delay.
-      const newWindow = window.open(waUrl, "_blank");
-
-      if (!newWindow) {
-        // Popup blocked — navigate current tab
-        window.location.href = waUrl;
-      }
+      window.open(waLink, "_blank");
       return false;
     }
   </script>
+
 </body>
 </html>
