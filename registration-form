@@ -1,0 +1,283 @@
+!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Paniya Digital Success - Join Form</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#f6f8fb;--card:#ffffff;--accent:#0f63ff;--muted:#6b7280;}
+  body{font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;background:var(--bg);margin:0;padding:24px;display:flex;justify-content:center}
+  .container{max-width:760px;width:100%}
+  .card{background:var(--card);border-radius:12px;box-shadow:0 6px 20px rgba(17,24,39,0.08);padding:28px}
+  h1{margin:0 0 8px;font-size:20px}
+  p.lead{margin:0 0 18px;color:var(--muted)}
+  .row{display:flex;gap:12px}
+  .col{flex:1}
+  label{display:block;font-size:13px;margin-bottom:6px;color:#374151}
+  input[type="text"], input[type="tel"], select, .file-input{width:100%;padding:10px;border-radius:8px;border:1px solid #e6edf3;font-size:14px}
+  .payment-methods{display:flex;gap:10px;margin-top:8px}
+  .pm{flex:1;padding:12px;border-radius:10px;border:1px solid #e6edf3;display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none}
+  .pm.selected{border-color:var(--accent);box-shadow:0 4px 12px rgba(15,99,255,0.12)}
+  .hint{font-size:13px;color:var(--muted);margin-top:8px}
+  .actions{display:flex;gap:10px;margin-top:18px;align-items:center}
+  .btn{background:var(--accent);color:white;padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:600}
+  .btn[disabled]{opacity:0.5;cursor:not-allowed}
+  .secondary{background:transparent;border:1px solid #e6edf3;color:#374151}
+  .qr{margin-top:14px;padding:12px;border-radius:10px;background:#fbfbfe;border:1px dashed #e6edf3}
+  .success-msg{display:none;padding:16px;border-radius:10px;background:#ecfdf5;color:#065f46;margin-top:14px}
+  .error{color:#b91c1c;font-size:13px;margin-top:8px}
+  footer{margin-top:12px;color:var(--muted);font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="card" role="main" aria-labelledby="title">
+      <h1 id="title">Join Paniya Digital Success Team</h1>
+      <p class="lead">कृपया नीचे अपना विवरण भरें और ₹500 की फीस UPI से करें। भुगतान के बाद स्क्रीनशॉट अपलोड करें।</p>
+
+      <form id="joinForm" autocomplete="off">
+        <div class="row" style="margin-bottom:12px">
+          <div class="col">
+            <label for="name">नाम</label>
+            <input id="name" name="name" type="text" placeholder="पूरा नाम" required />
+          </div>
+          <div class="col">
+            <label for="phone">मोबाइल नंबर</label>
+            <input id="phone" name="phone" type="tel" placeholder="10 अंक का मोबाइल" pattern="[0-9]{10}" required />
+          </div>
+        </div>
+
+        <div style="margin-bottom:12px">
+          <label for="gender">जेंडर</label>
+          <select id="gender" name="gender" required>
+            <option value="">चुनें</option>
+            <option>पुरुष</option>
+            <option>महिला</option>
+            <option>अन्य</option>
+          </select>
+        </div>
+
+        <div style="margin-top:10px">
+          <label>पेमेंट मेथड (UPI)</label>
+          <div class="payment-methods" id="pmList">
+            <div class="pm" data-method="paytm">Paytm</div>
+            <div class="pm" data-method="phonepe">PhonePe</div>
+            <div class="pm" data-method="gpay">Google Pay</div>
+          </div>
+          <div class="hint">किसी मेथड पर क्लिक करें — आपका मोबाइल UPI ऐप खुलेगा ताकि आप ₹500 भेज सकें।</div>
+        </div>
+
+        <div id="paymentActions" style="margin-top:14px;display:none">
+          <button type="button" id="openUpiBtn" class="btn">Open UPI app to pay ₹500</button>
+          <div class="qr" id="qrFallback" style="display:none">
+            अगर आपका फोन सीधे ऐप नहीं खोलता — तो नीचे दिखाई चीज़ें देखें और मैन्युअल पेमेंट करें:
+            <ul style="margin:8px 0 0 16px">
+              <li>UPI ID: <strong id="showUpi">9509607895@upi</strong></li>
+              <li>Payee Name: <strong>Panne Khan</strong></li>
+              <li>Amount: <strong>₹500</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <hr style="margin:18px 0">
+
+        <div>
+          <label>पेमेंट स्क्रीनशॉट अपलोड करें</label>
+          <input id="screenshot" class="file-input" type="file" accept="image/*" />
+          <div id="ocrStatus" class="hint" style="margin-top:8px">अपलोड होने पर स्क्रीनशॉट की जाँच की जाएगी...</div>
+          <div id="ocrError" class="error" style="display:none"></div>
+        </div>
+
+        <div class="actions">
+          <button type="submit" id="submitBtn" class="btn" disabled>Submit</button>
+          <button type="button" id="resetBtn" class="secondary">Reset</button>
+        </div>
+
+        <div class="success-msg" id="successMsg">
+          Congratulations — अब आप Paniya Digital Success Team में जुड़ चुके हैं!
+        </div>
+      </form>
+
+      <footer>यह फॉर्म प्रोफेशनल दिखने के लिए डिज़ाइन किया गया है — production पेमेंट के लिए UPI ID और भुगतान गेटवे सत्यापित करें।</footer>
+    </div>
+  </div>
+
+  <!-- Tesseract.js CDN for OCR -->
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/tesseract.min.js"></script>
+
+  <script>
+  (function(){
+    // ==== CONFIGURE HERE ====
+    // बदलें यदि आपका असली UPI VPA अलग है:
+    const UPI_ID = '9509607895@upi';            // <-- अपना VPA यहाँ डालें यदि अलग है
+    const PAYEE_NAME = 'Panne Khan';            // दिखावटी नाम
+    const AMOUNT = '500';                       // रुपये
+    const WHATSAPP_NUMBER_E164 = '919509607895' // +91 9509607895 (ई164 फॉर्मैट बिना +)
+    // ========================
+
+    const pmList = document.getElementById('pmList');
+    const pmEls = Array.from(document.querySelectorAll('.pm'));
+    const paymentActions = document.getElementById('paymentActions');
+    const openUpiBtn = document.getElementById('openUpiBtn');
+    const qrFallback = document.getElementById('qrFallback');
+    const showUpi = document.getElementById('showUpi');
+    showUpi.textContent = UPI_ID;
+
+    let selectedMethod = null;
+
+    pmEls.forEach(el=>{
+      el.addEventListener('click', ()=>{
+        pmEls.forEach(x=>x.classList.remove('selected'));
+        el.classList.add('selected');
+        selectedMethod = el.dataset.method;
+        paymentActions.style.display = 'block';
+      });
+    });
+
+    function buildUpiUri() {
+      // UPI deep link format
+      const pa = encodeURIComponent(UPI_ID);
+      const pn = encodeURIComponent(PAYEE_NAME);
+      const am = encodeURIComponent(AMOUNT);
+      const tn = encodeURIComponent('Joining Fee');
+      // standard upi uri
+      return `upi://pay?pa=${pa}&pn=${pn}&am=${am}&cu=INR&tn=${tn}`;
+    }
+
+    openUpiBtn.addEventListener('click', ()=> {
+      const uri = buildUpiUri();
+      // Try to open UPI app
+      // First attempt: simple scheme (works on many Android devices)
+      window.location.href = uri;
+
+      // Show fallback info after short delay if app didn't open
+      setTimeout(()=>{
+        qrFallback.style.display = 'block';
+      }, 1200);
+    });
+
+    // ===== OCR logic when an image is uploaded =====
+    const screenshotInput = document.getElementById('screenshot');
+    const ocrStatus = document.getElementById('ocrStatus');
+    const ocrError = document.getElementById('ocrError');
+    const submitBtn = document.getElementById('submitBtn');
+    const successMsg = document.getElementById('successMsg');
+    const form = document.getElementById('joinForm');
+    const resetBtn = document.getElementById('resetBtn');
+
+    let ocrConfirmed = false;
+
+    screenshotInput.addEventListener('change', async (ev) => {
+      ocrError.style.display = 'none';
+      ocrStatus.textContent = 'चित्र पढ़ा जा रहा है — कृपया प्रतीक्षा करें...';
+      submitBtn.disabled = true;
+      ocrConfirmed = false;
+
+      const file = ev.target.files[0];
+      if(!file){ ocrStatus.textContent = 'कोई फ़ाइल चुनी नहीं गई।'; return; }
+
+      // simple file type check
+      if(!file.type.startsWith('image/')) {
+        ocrError.textContent = 'कृपया इमेज फ़ाइल अपलोड करें (jpg/png)।';
+        ocrError.style.display = 'block';
+        ocrStatus.textContent = '';
+        return;
+      }
+
+      try {
+        const imgURL = URL.createObjectURL(file);
+
+        // run tesseract OCR
+        const worker = Tesseract.createWorker({
+          logger: m => { /* optional progress logging */ }
+        });
+        await worker.load();
+        await worker.loadLanguage('eng+hin'); // both languages
+        await worker.initialize('eng+hin');
+
+        const { data: { text } } = await worker.recognize(imgURL);
+        await worker.terminate();
+        URL.revokeObjectURL(imgURL);
+
+        const t = text.toLowerCase();
+        console.log('OCR TEXT:', t);
+
+        // Check for presence of payee name and amount
+        const hasName = /panne|pann?e\s*khan|paniya|pania/.test(t); // flexible checks
+        const hasAmount = /500|500\.00|₹\s*500|inr\s*500/.test(t);
+
+        if(hasName && hasAmount) {
+          ocrStatus.textContent = 'पेमेंट स्क्रीनशॉट में सत्यापन सफल — आप सबमिट कर सकते हैं।';
+          ocrConfirmed = true;
+          submitBtn.disabled = false;
+          ocrError.style.display = 'none';
+        } else {
+          let reason = [];
+          if(!hasName) reason.push('पैये का नाम नहीं मिला');
+          if(!hasAmount) reason.push('राशि ₹500 नहीं मिली');
+          ocrError.textContent = 'OCR सत्यापन असफल: ' + reason.join(' और ') + '। कृपया सही स्क्रीनशॉट अपलोड करें।';
+          ocrError.style.display = 'block';
+          ocrStatus.textContent = '';
+        }
+
+      } catch (err) {
+        console.error(err);
+        ocrError.textContent = 'OCR प्रक्रिया में त्रुटि आई — कृपया स्पष्ट स्क्रीनशॉट डालें।';
+        ocrError.style.display = 'block';
+        ocrStatus.textContent = '';
+      }
+    });
+
+    // Submit handler
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      // basic validation
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const gender = document.getElementById('gender').value;
+
+      if(!name || !phone || !gender) {
+        alert('कृपया सभी फ़ील्ड भरें।');
+        return;
+      }
+      if(!selectedMethod) {
+        alert('कृपया पेमेंट मेथड चुनें और पेमेंट करें।');
+        return;
+      }
+      if(!ocrConfirmed) {
+        alert('कृपया पेमेंट स्क्रीनशॉट अपलोड करके सत्यापन कराएँ।');
+        return;
+      }
+
+      // Show Congratulations (English) then redirect to WhatsApp
+      successMsg.style.display = 'block';
+      successMsg.textContent = 'Congratulations — you are now part of Paniya Digital Success Team!';
+      submitBtn.disabled = true;
+
+      // prepare WhatsApp message
+      const msg = encodeURIComponent(`Hello, I have joined Paniya Digital Success Team.\nName: ${name}\nPhone: ${phone}\nPaid ₹${AMOUNT} via ${selectedMethod}.\nPlease confirm.`);
+      // redirect after short delay
+      setTimeout(()=>{
+        // open WhatsApp Web / app
+        const waUrl = `https://wa.me/${WHATSAPP_NUMBER_E164}?text=${msg}`;
+        window.location.href = waUrl;
+      }, 1200);
+    });
+
+    resetBtn.addEventListener('click', ()=>{
+      form.reset();
+      pmEls.forEach(x=>x.classList.remove('selected'));
+      selectedMethod = null;
+      paymentActions.style.display = 'none';
+      qrFallback.style.display = 'none';
+      ocrStatus.textContent = 'अपलोड होने पर स्क्रीनशॉट की जाँच की जाएगी...';
+      ocrError.style.display = 'none';
+      submitBtn.disabled = true;
+      successMsg.style.display = 'none';
+    });
+
+  })();
+  </script>
+</body>
+</html>
