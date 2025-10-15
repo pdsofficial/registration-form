@@ -35,35 +35,29 @@
     background-color: #aaa;
     cursor: not-allowed;
   }
+  /* QR को पूरी तरह ज़ूम */
   .qr-section {
-    margin: 20px 0;
-    position: relative;
-    overflow: hidden; /* बाहर के हिस्से कट जाएँ */
     width: 100%;
-    height: 300px; /* QR को बड़ा दिखाने के लिए */
+    height: 350px; /* QR बड़ा दिखाने के लिए */
+    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 12px;
     background-color: #fff;
+    margin: 20px 0;
   }
   .qr-section img {
-    width: auto;
-    height: 100%; /* पूरी ऊंचाई भर दे */
-    object-fit: cover; /* बाकी का एरिया कट जाए */
+    height: 100%;
+    object-fit: cover; /* बाकी का हिस्सा कट जाए */
     cursor: pointer;
   }
-  .qr-section p {
-    font-weight: bold;
-    margin-bottom: 10px;
-    font-size: 16px;
-  }
   .error-msg {
-    color: red;
+    color: red; /* लाल रंग */
     font-weight: bold;
     margin-top: 5px;
     font-size: 14px;
-    min-height: 20px; /* हमेशा जगह रहे मैसेज के लिए */
+    min-height: 20px; /* हमेशा जगह रहे */
   }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.0.2/dist/tesseract.min.js"></script>
@@ -71,7 +65,6 @@
 <body>
 
 <div class="form-container">
-  <h2>Paniya Digital Success</h2>
   <form id="registrationForm">
     <input type="text" id="name" placeholder="नाम" required>
     <input type="tel" id="mobile" placeholder="मोबाइल नंबर" pattern="[0-9]{10}" required>
@@ -82,8 +75,8 @@
       <option value="other">Other</option>
     </select>
 
+    <!-- पूरी तरह ज़ूम QR -->
     <div class="qr-section">
-      <p>पेमेंट करने के लिए QR Scanner को स्कैन करें</p>
       <img id="qrImage" src="https://i.postimg.cc/hjY5WhXy/Account-QRCode-1785-LIGHT-THEME.png" alt="Mera QR स्कैनर">
     </div>
 
@@ -119,13 +112,13 @@
         Tesseract.recognize(reader.result, 'eng+hin', { logger: m => console.log(m) })
         .then(({ data: { text } }) => {
           console.log("Detected Text:", text);
-          // टेक्स्ट सही है या नहीं
+          // अगर टेक्स्ट सही है तो सबमिट अनेबल, नहीं तो disable
           if(text.includes("Panne khan ₹500 पेमेंट सफल रहा")){
             submitBtn.disabled = false;
           } else {
             submitBtn.disabled = true;
           }
-          // हमेशा मैसेज दिखाएं
+          // हमेशा लाल रंग में मैसेज दिखाएं
           errorMsg.textContent = "कृपया पहले पेमेंट करें";
         });
       }
