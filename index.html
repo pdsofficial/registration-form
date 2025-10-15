@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>पनिया डिजिटल सक्सेस रजिस्ट्रेशन</title>
+  <title>Pania Digital Success Registration</title>
   <style>
     body {
       font-family: 'Poppins', sans-serif;
@@ -58,6 +58,12 @@
     .upload-box {
       margin-top: 10px;
     }
+    #warningMsg {
+      color: red;
+      font-size: 14px;
+      display: none;
+      margin-top: 5px;
+    }
     button {
       background-color: #27ae60;
       color: white;
@@ -79,18 +85,18 @@
 <body>
 
   <div class="form-container">
-    <h2>पनिया डिजिटल सक्सेस फॉर्म</h2>
+    <h2>Pania Digital Success Registration Form</h2>
 
     <form id="joinForm">
-      <label>पूरा नाम</label>
-      <input type="text" name="name" placeholder="अपना नाम लिखें" required>
+      <label>Full Name</label>
+      <input type="text" name="name" placeholder="Enter your name" required>
 
-      <label>मोबाइल नंबर</label>
-      <input type="tel" name="number" pattern="[0-9]{10}" placeholder="10 अंकों का मोबाइल नंबर" required>
+      <label>Mobile Number</label>
+      <input type="tel" name="number" pattern="[0-9]{10}" placeholder="10-digit mobile number" required>
 
-      <label>जेंडर</label>
+      <label>Gender</label>
       <select name="gender" required>
-        <option value="">चुनें</option>
+        <option value="">Select</option>
         <option>Male</option>
         <option>Female</option>
         <option>Other</option>
@@ -101,14 +107,15 @@
       </div>
 
       <p class="instruction">
-        पहले QR कोड को स्कैन करके अपने UPI ऐप से ₹10 पेमेंट करें, फिर नीचे उसका स्क्रीनशॉट अपलोड करें।
+        First, scan the QR code and make a ₹10 payment using your UPI app, then upload the screenshot below.
       </p>
 
       <div class="upload-box">
         <input type="file" id="screenshot" accept="image/*" required>
+        <p id="warningMsg">⚠️ कृपया पहले ₹10 पेमेंट करें और सही स्क्रीनशॉट अपलोड करें।</p>
       </div>
 
-      <button type="submit" id="submitBtn" disabled>सबमिट करें</button>
+      <button type="submit" id="submitBtn" disabled>Submit</button>
     </form>
   </div>
 
@@ -116,28 +123,30 @@
     const fileInput = document.getElementById('screenshot');
     const submitBtn = document.getElementById('submitBtn');
     const form = document.getElementById('joinForm');
+    const warningMsg = document.getElementById('warningMsg');
 
-    // स्क्रीनशॉट नाम से बेसिक वेरिफिकेशन (डेमो के लिए)
+    // स्क्रीनशॉट वेरिफिकेशन
     fileInput.addEventListener('change', () => {
       const file = fileInput.files[0];
       if (file && (file.name.toLowerCase().includes("panne") || file.name.toLowerCase().includes("10"))) {
         submitBtn.disabled = false;
+        warningMsg.style.display = 'none'; // सही स्क्रीनशॉट → चेतावनी छुपाएं
       } else {
         submitBtn.disabled = true;
-        alert("⚠️ कृपया सही स्क्रीनशॉट अपलोड करें जिसमें 'panne khan ₹10 पेमेंट सफल रहा' दिखे।");
+        warningMsg.style.display = 'block'; // गलत स्क्रीनशॉट → चेतावनी दिखाएं
       }
     });
 
     form.addEventListener('submit', function(e) {
       e.preventDefault();
-      alert("🎉 Congratulations!\nअब आप पनिया डिजिटल सक्सेस टीम का हिस्सा बन चुके हैं!");
+      alert("🎉 Congratulations!\nYou are now part of the Pania Digital Success team!");
 
       const name = form.name.value;
       const number = form.number.value;
       const gender = form.gender.value;
 
-      // WhatsApp पर Redirect with auto-filled message
-      const msg = `नाम: ${name}%0aनंबर: ${number}%0aजेंडर: ${gender}%0aमैंने ₹10 पेमेंट कर दिया है, स्क्रीनशॉट भेज रहा हूँ।`;
+      // WhatsApp redirect with auto-filled message
+      const msg = `Name: ${name}%0aNumber: ${number}%0aGender: ${gender}%0aI have made ₹10 payment and uploading the screenshot.`;
       window.location.href = `https://wa.me/9509607895?text=${msg}`;
     });
   </script>
