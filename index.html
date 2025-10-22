@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Paniya Digital Success - Member Registration</title>
+  <title>PDS - Single Product App</title>
   <style>
     body {
       font-family: "Poppins", Arial, sans-serif;
@@ -14,123 +14,60 @@
       height: 100vh;
       margin: 0;
     }
-    .form-box {
+    .app-container {
       background: #ffffff;
       border: 1px solid #ffd27f;
       border-radius: 12px;
       padding: 25px 30px;
-      width: 340px;
+      width: 320px;
       box-shadow: 0 6px 18px rgba(255, 153, 0, 0.25);
-    }
-    h2 {
       text-align: center;
+    }
+    .app-container img {
+      width: 250px;
+      height: 250px;
+      object-fit: contain;
+      margin-bottom: 15px;
+    }
+    .app-container h2 {
       color: #ff9f00;
-      margin-bottom: 20px;
-      font-weight: 700;
+      margin-bottom: 10px;
     }
-    label {
-      display: block;
-      font-weight: 600;
+    .app-container p {
+      font-size: 14px;
       color: #444;
-      margin-bottom: 5px;
-      font-size: 14px;
-    }
-    input, select {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 14px;
-      box-sizing: border-box;
-    }
-    .gender-group {
-      display: flex;
-      justify-content: space-between;
       margin-bottom: 15px;
     }
-    .gender-group label {
-      font-weight: normal;
-      font-size: 14px;
-    }
-    button {
-      width: 100%;
-      padding: 12px;
-      background: #ffb84d;
-      border: none;
-      color: white;
-      font-size: 15px;
+    .price {
+      font-size: 20px;
+      color: green;
+      margin-bottom: 20px;
       font-weight: bold;
-      border-radius: 8px;
+    }
+    .buy-button {
+      background-color: #ff6600;
+      color: #fff;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
       cursor: pointer;
-      transition: 0.3s;
+      text-decoration: none;
+      display: inline-block;
     }
-    button:hover {
-      background: #ff9f00;
-    }
-    footer {
-      text-align: center;
-      margin-top: 10px;
-      font-size: 12px;
-      color: #888;
+    .buy-button:hover {
+      background-color: #e65c00;
     }
   </style>
 </head>
 <body>
-
-  <div class="form-box">
-    <h2>Paniya Digital Success<br>Member Registration</h2>
-    <form id="waForm" onsubmit="return sendToWhatsApp(event)">
-      <label>पूरा नाम</label>
-      <input type="text" id="name" placeholder="अपना नाम लिखें" required>
-
-      <label>मोबाइल नंबर</label>
-      <input type="tel" id="phone" placeholder="उदा. 9876543210" required>
-
-      <label>जेंडर</label>
-      <div class="gender-group">
-        <label><input type="radio" name="gender" value="Male" required> मेल</label>
-        <label><input type="radio" name="gender" value="Female"> फीमेल</label>
-        <label><input type="radio" name="gender" value="Other"> अन्य</label>
-      </div>
-
-      <label>कंट्री</label>
-      <select id="country" required>
-        <option value="">-- देश चुनें --</option>
-        <option value="India">🇮🇳 India</option>
-        <option value="Nepal">🇳🇵 Nepal</option>
-        <option value="Bangladesh">🇧🇩 Bangladesh</option>
-        <option value="Pakistan">🇵🇰 Pakistan</option>
-        <option value="Other">🌍 Other</option>
-      </select>
-
-      <button type="submit">Join Paniya Digital Success</button>
-    </form>
-    <footer>© 2025 Paniya Digital Success</footer>
+  <div class="app-container">
+    <img src="https://via.placeholder.com/250" alt="Product Image">
+    <h2>Amazing Product</h2>
+    <p>This is the amazing product you want to buy.</p>
+    <div class="price">₹999</div>
+    <a href="https://www.meesho.com/product-link" class="buy-button" target="_blank">Buy Now</a>
   </div>
-
-  <script>
-    function sendToWhatsApp(event) {
-      event.preventDefault();
-
-      const name = document.getElementById("name").value.trim();
-      const phone = document.getElementById("phone").value.trim();
-      const gender = document.querySelector('input[name="gender"]:checked')?.value || "";
-      const country = document.getElementById("country").value;
-
-      if (!name || !phone || !gender || !country) {
-        alert("कृपया सभी जानकारी भरें।");
-        return false;
-      }
-
-      const msg = `📋 *New Member Registration*\n\n👤 नाम: ${name}\n📞 मोबाइल: ${phone}\n⚧ जेंडर: ${gender}\n🌍 देश: ${country}\n\n💼 *Paniya Digital Success*`;
-      const encodedMsg = encodeURIComponent(msg);
-      const waLink = `https://wa.me/919509607895?text=${encodedMsg}`;
-
-      window.open(waLink, "_blank");
-      return false;
-    }
-  </script>
-
 </body>
 </html>
