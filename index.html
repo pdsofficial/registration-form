@@ -15,7 +15,7 @@
     }
     .container {
       width: 90%;
-      margin: 30px auto;
+      margin: 40px auto;
       background: white;
       border-radius: 15px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
@@ -26,11 +26,11 @@
       font-size: 26px;
     }
     input {
-      width: 85%;
+      width: 80%;
       padding: 10px;
       border-radius: 10px;
       border: 1px solid #ccc;
-      margin: 8px 0;
+      margin: 10px 0;
       font-size: 16px;
     }
     button {
@@ -48,9 +48,9 @@
       background: #e66a00;
     }
     .balance {
-      font-size: 22px;
+      font-size: 24px;
       color: green;
-      margin: 15px 0;
+      margin-top: 15px;
     }
     .info {
       background: #f9f9f9;
@@ -59,18 +59,10 @@
       margin-top: 10px;
       font-size: 14px;
     }
-    #withdrawPage {
-      display: none;
-    }
-    .success {
-      color: green;
-      font-weight: bold;
-    }
   </style>
 </head>
 <body>
 
-  <!-- LOGIN PAGE -->
   <div class="container" id="loginDiv">
     <h1>💰 Monny Super</h1>
     <p>Login करें और ₹5 Bonus पाएं!</p>
@@ -79,14 +71,13 @@
     <button onclick="login()">Login Now</button>
   </div>
 
-  <!-- MAIN APP PAGE -->
   <div class="container" id="appDiv" style="display:none;">
     <h1>👋 स्वागत है, <span id="username"></span>!</h1>
     <div class="balance">वर्तमान बैलेंस: ₹<span id="balance">0</span></div>
 
     <button onclick="watchAd()">🎥 Watch & Earn ₹1</button>
     <button onclick="referFriend()">👫 Refer & Earn ₹10</button>
-    <button onclick="openWithdrawPage()">🏦 Withdraw Money</button>
+    <button onclick="withdraw()">🏦 Withdraw Money</button>
 
     <div class="info">
       <p>मिनिमम विड्रॉल ₹50 | मैक्सिमम ₹200</p>
@@ -101,23 +92,14 @@
     </div>
   </div>
 
-  <!-- WITHDRAW PAGE -->
-  <div class="container" id="withdrawPage">
-    <h1>🏦 Withdraw Request</h1>
-    <input type="text" id="upiName" placeholder="पूरा नाम">
-    <input type="text" id="upiId" placeholder="UPI ID (जैसे 9876543210@paytm)">
-    <input type="number" id="amount" placeholder="राशि (₹)">
-    <button onclick="submitWithdraw()">Submit Request</button>
-    <p id="withdrawMsg"></p>
-    <button onclick="backToApp()">🔙 Back</button>
-  </div>
-
   <script>
     let balance = 0;
     let user = localStorage.getItem("user");
+    let referredBy = null;
+
+    // Referral Code detection
     const urlParams = new URLSearchParams(window.location.search);
     const ref = urlParams.get("ref");
-
     if (ref) {
       localStorage.setItem("referredBy", ref);
     }
@@ -133,11 +115,17 @@
         alert("कृपया नाम और मोबाइल नंबर भरें");
         return;
       }
+
       localStorage.setItem("user", name);
-      localStorage.setItem("balance", 5);
+      localStorage.setItem("balance", 5); // Login bonus ₹5
       localStorage.setItem("refCode", mobile);
       balance = 5;
       showApp();
+
+      const refBy = localStorage.getItem("referredBy");
+      if (refBy && refBy !== mobile) {
+        localStorage.setItem("refBonusGiven", "yes");
+      }
     }
 
     function showApp() {
@@ -166,41 +154,17 @@
       document.execCommand("copy");
     }
 
-    function openWithdrawPage() {
-      document.getElementById("appDiv").style.display = "none";
-      document.getElementById("withdrawPage").style.display = "block";
-    }
-
-    function backToApp() {
-      document.getElementById("withdrawPage").style.display = "none";
-      document.getElementById("appDiv").style.display = "block";
-    }
-
-    function submitWithdraw() {
-      const name = document.getElementById("upiName").value.trim();
-      const upi = document.getElementById("upiId").value.trim();
-      const amt = parseInt(document.getElementById("amount").value);
-      const msg = document.getElementById("withdrawMsg");
-
-      if (amt < 50 || amt > 200) {
-        msg.innerHTML = "⚠️ विड्रॉल लिमिट ₹50 से ₹200 के बीच होनी चाहिए";
-        msg.style.color = "red";
-        return;
+    function withdraw() {
+      if (balance < 50) {
+        alert("❌ मिनिमम विड्रॉल ₹50 चाहिए");
+      } else if (balance > 200) {
+        alert("⚠️ मैक्सिमम विड्रॉल ₹200 तक ही कर सकते हैं");
+      } else {
+        alert("✅ विड्रॉल रिक्वेस्ट सबमिट! पेमेंट 24 घंटे में भेजा जाएगा।");
+        balance = 0;
+        localStorage.setItem("balance", balance);
+        document.getElementById("balance").innerText = balance;
       }
-      if (amt > balance) {
-        msg.innerHTML = "❌ आपके पास पर्याप्त बैलेंस नहीं है";
-        msg.style.color = "red";
-        return;
-      }
-
-      msg.innerHTML = "✅ विड्रॉल रिक्वेस्ट भेजी गई! पेमेंट 24 घंटे में UPI पर भेजा जाएगा।";
-      msg.classList.add("success");
-      balance -= amt;
-      localStorage.setItem("balance", balance);
-      document.getElementById("balance").innerText = balance;
-      document.getElementById("upiName").value = "";
-      document.getElementById("upiId").value = "";
-      document.getElementById("amount").value = "";
     }
   </script>
 </body>
