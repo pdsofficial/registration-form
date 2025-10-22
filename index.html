@@ -3,71 +3,205 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PDS - Single Product App</title>
+  <title>Monny Super - Earn Money</title>
   <style>
     body {
-      font-family: "Poppins", Arial, sans-serif;
-      background-color: #fff7e6;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #ffb700, #ff7b00);
       margin: 0;
-    }
-    .app-container {
-      background: #ffffff;
-      border: 1px solid #ffd27f;
-      border-radius: 12px;
-      padding: 25px 30px;
-      width: 320px;
-      box-shadow: 0 6px 18px rgba(255, 153, 0, 0.25);
+      padding: 0;
       text-align: center;
+      color: #333;
     }
-    .app-container img {
-      width: 250px;
-      height: 250px;
-      object-fit: contain;
-      margin-bottom: 15px;
+    .container {
+      width: 90%;
+      margin: 30px auto;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      padding: 20px;
     }
-    .app-container h2 {
-      color: #ff9f00;
-      margin-bottom: 10px;
+    h1 {
+      color: #ff7b00;
+      font-size: 26px;
     }
-    .app-container p {
-      font-size: 14px;
-      color: #444;
-      margin-bottom: 15px;
-    }
-    .price {
-      font-size: 20px;
-      color: green;
-      margin-bottom: 20px;
-      font-weight: bold;
-    }
-    .buy-button {
-      background-color: #ff6600;
-      color: #fff;
-      padding: 12px 25px;
-      border: none;
+    input {
+      width: 85%;
+      padding: 10px;
       border-radius: 10px;
+      border: 1px solid #ccc;
+      margin: 8px 0;
       font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
     }
-    .buy-button:hover {
-      background-color: #e65c00;
+    button {
+      background: #ff7b00;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 10px;
+      margin: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      width: 80%;
+    }
+    button:hover {
+      background: #e66a00;
+    }
+    .balance {
+      font-size: 22px;
+      color: green;
+      margin: 15px 0;
+    }
+    .info {
+      background: #f9f9f9;
+      border-radius: 10px;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+    #withdrawPage {
+      display: none;
+    }
+    .success {
+      color: green;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-  <div class="app-container">
-    <img src="https://via.placeholder.com/250" alt="Product Image">
-    <h2>Amazing Product</h2>
-    <p>This is the amazing product you want to buy.</p>
-    <div class="price">₹999</div>
-    <a href="https://www.meesho.com/product-link" class="buy-button" target="_blank">Buy Now</a>
+
+  <!-- LOGIN PAGE -->
+  <div class="container" id="loginDiv">
+    <h1>💰 Monny Super</h1>
+    <p>Login करें और ₹5 Bonus पाएं!</p>
+    <input type="text" id="name" placeholder="अपना नाम डालें" required>
+    <input type="text" id="mobile" placeholder="मोबाइल नंबर डालें" required>
+    <button onclick="login()">Login Now</button>
   </div>
+
+  <!-- MAIN APP PAGE -->
+  <div class="container" id="appDiv" style="display:none;">
+    <h1>👋 स्वागत है, <span id="username"></span>!</h1>
+    <div class="balance">वर्तमान बैलेंस: ₹<span id="balance">0</span></div>
+
+    <button onclick="watchAd()">🎥 Watch & Earn ₹1</button>
+    <button onclick="referFriend()">👫 Refer & Earn ₹10</button>
+    <button onclick="openWithdrawPage()">🏦 Withdraw Money</button>
+
+    <div class="info">
+      <p>मिनिमम विड्रॉल ₹50 | मैक्सिमम ₹200</p>
+      <p>पेमेंट मेथड: UPI / PhonePe / Google Pay / Paytm</p>
+      <p>कोई KYC नहीं, कोई टास्क नहीं</p>
+      <p>रेफरल बोनस तभी मिलेगा जब व्यक्ति ऐप डाउनलोड कर 1 दिन यूज़ करे</p>
+    </div>
+
+    <div style="margin-top:15px;">
+      <small>आपका रेफरल लिंक:</small><br>
+      <input type="text" id="refLink" readonly style="width:95%;padding:5px;border-radius:5px;">
+    </div>
+  </div>
+
+  <!-- WITHDRAW PAGE -->
+  <div class="container" id="withdrawPage">
+    <h1>🏦 Withdraw Request</h1>
+    <input type="text" id="upiName" placeholder="पूरा नाम">
+    <input type="text" id="upiId" placeholder="UPI ID (जैसे 9876543210@paytm)">
+    <input type="number" id="amount" placeholder="राशि (₹)">
+    <button onclick="submitWithdraw()">Submit Request</button>
+    <p id="withdrawMsg"></p>
+    <button onclick="backToApp()">🔙 Back</button>
+  </div>
+
+  <script>
+    let balance = 0;
+    let user = localStorage.getItem("user");
+    const urlParams = new URLSearchParams(window.location.search);
+    const ref = urlParams.get("ref");
+
+    if (ref) {
+      localStorage.setItem("referredBy", ref);
+    }
+
+    if (user) {
+      showApp();
+    }
+
+    function login() {
+      const name = document.getElementById("name").value.trim();
+      const mobile = document.getElementById("mobile").value.trim();
+      if (name === "" || mobile === "") {
+        alert("कृपया नाम और मोबाइल नंबर भरें");
+        return;
+      }
+      localStorage.setItem("user", name);
+      localStorage.setItem("balance", 5);
+      localStorage.setItem("refCode", mobile);
+      balance = 5;
+      showApp();
+    }
+
+    function showApp() {
+      document.getElementById("loginDiv").style.display = "none";
+      document.getElementById("appDiv").style.display = "block";
+      const userName = localStorage.getItem("user");
+      document.getElementById("username").innerText = userName;
+      balance = parseInt(localStorage.getItem("balance")) || 0;
+      document.getElementById("balance").innerText = balance;
+      const refCode = localStorage.getItem("refCode");
+      const appLink = window.location.origin + window.location.pathname + "?ref=" + refCode;
+      document.getElementById("refLink").value = appLink;
+    }
+
+    function watchAd() {
+      balance += 1;
+      localStorage.setItem("balance", balance);
+      document.getElementById("balance").innerText = balance;
+      alert("🎉 आपने ₹1 कमाए!");
+    }
+
+    function referFriend() {
+      alert("रेफरल लिंक कॉपी करें और शेयर करें!");
+      const refInput = document.getElementById("refLink");
+      refInput.select();
+      document.execCommand("copy");
+    }
+
+    function openWithdrawPage() {
+      document.getElementById("appDiv").style.display = "none";
+      document.getElementById("withdrawPage").style.display = "block";
+    }
+
+    function backToApp() {
+      document.getElementById("withdrawPage").style.display = "none";
+      document.getElementById("appDiv").style.display = "block";
+    }
+
+    function submitWithdraw() {
+      const name = document.getElementById("upiName").value.trim();
+      const upi = document.getElementById("upiId").value.trim();
+      const amt = parseInt(document.getElementById("amount").value);
+      const msg = document.getElementById("withdrawMsg");
+
+      if (amt < 50 || amt > 200) {
+        msg.innerHTML = "⚠️ विड्रॉल लिमिट ₹50 से ₹200 के बीच होनी चाहिए";
+        msg.style.color = "red";
+        return;
+      }
+      if (amt > balance) {
+        msg.innerHTML = "❌ आपके पास पर्याप्त बैलेंस नहीं है";
+        msg.style.color = "red";
+        return;
+      }
+
+      msg.innerHTML = "✅ विड्रॉल रिक्वेस्ट भेजी गई! पेमेंट 24 घंटे में UPI पर भेजा जाएगा।";
+      msg.classList.add("success");
+      balance -= amt;
+      localStorage.setItem("balance", balance);
+      document.getElementById("balance").innerText = balance;
+      document.getElementById("upiName").value = "";
+      document.getElementById("upiId").value = "";
+      document.getElementById("amount").value = "";
+    }
+  </script>
 </body>
 </html>
